@@ -25,7 +25,6 @@ void Write_DS_Lop_File(DSLop dsl, fstream &writeFile) {
     } else {
 //        writeFile << dsl.n<< endl;
         for (int i = 0; i < dsl.n; i++) {
-        	printf("%s %s",dsl.node[i] ->MALOP,dsl.node[i] ->TENLOP);
             writeFile << dsl.node[i] -> MALOP << "," << dsl.node[i] -> TENLOP << endl;
         }
     }
@@ -49,7 +48,8 @@ void Read_DS_Lop_File(DSLop &dsl){
 		strcpy(lop.MALOP, data.c_str());
 		getline(readFile, data);
 		strcpy(lop.TENLOP, data.c_str());
-		dsl.Add_Lop(lop);
+		if(strcmp(lop.MALOP,"")!=0) dsl.Add_Lop(lop); 
+		// do no se doc dong cuoi cung, ma dong cuoi cung khong co gia tri no cung doc, nen khac null moi duoc them vao
 	}
 }
 
