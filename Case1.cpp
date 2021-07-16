@@ -24,6 +24,7 @@ void Draw_Frame_Case1_Input(){
 	printf("%s","TEN LOP");
 }
 void Add_Lop(DSLop &dsl){
+	Normal_Text();
 	Draw_Frame_Case1_Input();
 	int chon = 0;
 	Lop lop;
@@ -144,6 +145,7 @@ void Case1(DSLop &dsl){
 			case F2:
 				Add_Lop(dsl);
 				Save_DS_Lop_File(dsl);
+				Read_DS_Lop_File(dsl);
 				break;
 			case ESC:
                 return;
