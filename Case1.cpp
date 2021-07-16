@@ -1,5 +1,12 @@
 //========================CASE 1===================
 const int MAX_LIST = 20;
+
+void Clear_Data_Input(){
+	gotoxy(90,4);
+	printf("%s","                     ");
+	gotoxy(90,6);
+	printf("%s","                     ");
+}
 void Draw_Frame_Case1(){
 	Draw_Frame_Main(0,0,X,Y,"QUAN LI LOP - THI TRAC NGHIEM");
 	Draw_Frame(3,3,70,22);
@@ -25,6 +32,7 @@ void Draw_Frame_Case1_Input(){
 }
 void Add_Lop(DSLop &dsl){
 	Normal_Text();
+	Clear_Data_Input();
 	Draw_Frame_Case1_Input();
 	int chon = 0;
 	Lop lop;
@@ -67,6 +75,8 @@ void Add_Lop(DSLop &dsl){
             break;
         case CTRL_S:
         	dsl.Add_Lop(lop);
+        	Save_DS_Lop_File(dsl);
+			Read_DS_Lop_File(dsl);
         	return;
         case ESC:
             return;
@@ -80,10 +90,7 @@ void Show_1_Lop(Lop *lop, int x,int y){
 	printf("%s",lop->MALOP);
 	gotoxy(x+25,y);
 	printf("%s",lop->TENLOP);
-	gotoxy(90,4);
-	printf("%s","                     ");
-	gotoxy(90,6);
-	printf("%s","                     ");
+	Clear_Data_Input();
 	gotoxy(90,4);
 	printf("%s",lop->MALOP);
 	gotoxy(90,6);
@@ -137,15 +144,16 @@ void Case1(DSLop &dsl){
 				if(pos<MAX_LIST-1){
 					pos++;
 				}
-				if(end<dsl.n-1 && pos == MAX_LIST-1){
+				if(end<dsl.n && pos == MAX_LIST-1){
 					start++;
 					end++;
 				}
 				break;
 			case F2:
 				Add_Lop(dsl);
-				Save_DS_Lop_File(dsl);
-				Read_DS_Lop_File(dsl);
+				pos = MAX_LIST-1;
+				end = dsl.n;
+				start = end-pos-1;
 				break;
 			case ESC:
                 return;
