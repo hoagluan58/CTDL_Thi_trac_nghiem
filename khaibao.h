@@ -1,9 +1,10 @@
 #define MAXCAUHOI 200
 #define MAXMONHOC 100
-#include<iostream>
+#include <iostream>
 using namespace std;
 //----------DANH SACH CAU HOI(DS TUYEN TINH)-----------
-typedef struct CauHoi{
+typedef struct CauHoi
+{
     int ID;
     string NOIDUNG;
     string A;
@@ -11,105 +12,121 @@ typedef struct CauHoi{
     string C;
     string D;
     char DA;
-}CauHoi;
+} CauHoi;
 
-typedef struct DSCauHoi{
+typedef struct DSCauHoi
+{
     CauHoi list[MAXCAUHOI];
     int tong = 0;
-}DSCauHoi;
-
+} DSCauHoi;
 
 //---------DANH SACH MON HOC(CAY NHI PHAN TIM KIEM)------------
-typedef struct MonHoc{
+typedef struct MonHoc
+{
     char MAMH[16];
     string TENMH;
     DSCauHoi dsch;
-}MonHoc;
+} MonHoc;
 
-typedef struct DSMonHoc {
-	MonHoc mon;
+typedef struct DSMonHoc
+{
+    MonHoc mon;
     struct DSMonHoc *pLeft;
     struct DSMonHoc *pRight;
-}DSMonHoc;
+} DSMonHoc;
 typedef struct DSMonHoc NODE;
-typedef NODE* TREE;
+typedef NODE *TREE;
 
 //----------DANH SACH CAU HOI DA THUC HIEN------------
-typedef struct ChiTietCauHoi{
-	int id;
-	char svChon;
-}ChiTietCauHoi;
+typedef struct ChiTietCauHoi
+{
+    int id;
+    char svChon;
+} ChiTietCauHoi;
 
 //----------DANH SACH DIEM(DS LIEN KET DON)-----------
-typedef struct Diem{
+typedef struct Diem
+{
     char MAMH[16];
     float DIEMTHI;
     Diem *pNext;
     ChiTietCauHoi CAUHOISV[MAXCAUHOI];
-}Diem;
+} Diem;
 
-typedef struct DSDiem{
-    Diem *pHead =NULL;
+typedef struct DSDiem
+{
+    Diem *pHead = NULL;
     int tong = 0;
-}DSDiem;
+} DSDiem;
 
 //----------DANH SACH SINH VIEN(DS LIEN KET DON)------
-typedef struct SinhVien{
-    string MSSV;
-    string HO;
-    string TENDEM;
-    string TEN;
-    string PASS;
+typedef struct SinhVien
+{
+    char MSSV[20];
+    char HO[20];
+    char TEN[20];
+    char PASS[20];
     bool PHAI;
     SinhVien *pNext;
     DSDiem DSDIEM;
-}SV;
+    void Init(){
+    	strcpy(this->MSSV,"");
+    	strcpy(this->HO,"");
+    	strcpy(this->TEN,"");
+    	strcpy(this->PASS,"");
+    	this->PHAI=false;
+    	this->pNext=NULL;
+	}
+} SV;
 
-typedef struct DSSinhVien{
+typedef struct DSSinhVien
+{
     SV *pHead = NULL;
     int tong = 0;
-}DSSinhVien;
+    
+    void Init(){
+    	
+	}
+    
+} DSSinhVien;
 
 //------------DANH SACH LOP(MANG CON TRO)-----------------
-typedef struct Lop{
+typedef struct Lop
+{
     char MALOP[20];
     char TENLOP[40];
     DSSinhVien *DSSV;
-}Lop;
- 
-typedef struct DSLop{
+} Lop;
+
+typedef struct DSLop
+{
     Lop *node[MAXMONHOC];
     int n = 0;
-    
-	void Add_Lop(Lop lop){
-		if(n > MAXMONHOC){
-			cout << "DANH SACH LOP DA DAY!";
-		}
-		else{	
-			this->node[n] = new Lop;
-			strcpy(this->node[n]->MALOP,lop.MALOP);
-			strcpy(this->node[n]->TENLOP,lop.TENLOP);
-	        this->n++;
-		}
-	}
-	void DeleteAllNode(){
-		while(this->n>0){
-			this->node[this->n-1]=NULL;
-			this->n--;
-		}
-	}
-	void Init(){
-		n=0;
-	}
-}DSLop;
 
-
-
-
-
-
-
-
-
-
-
+    void Add_Lop(Lop lop)
+    {
+        if (n > MAXMONHOC)
+        {
+            cout << "DANH SACH LOP DA DAY!";
+        }
+        else
+        {
+            this->node[n] = new Lop;
+            strcpy(this->node[n]->MALOP, lop.MALOP);
+            strcpy(this->node[n]->TENLOP, lop.TENLOP);
+            this->n++;
+        }
+    }
+    void DeleteAllNode()
+    {
+        while (this->n > 0)
+        {
+            this->node[this->n - 1] = NULL;
+            this->n--;
+        }
+    }
+    void Init()
+    {
+        n = 0;
+    }
+} DSLop;

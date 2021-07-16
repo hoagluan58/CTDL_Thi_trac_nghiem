@@ -1,7 +1,7 @@
-#include<mylib.h>
-#include<string.h>
-#include"khaibao.h"
-#include"IO_File.h"
+#include <mylib.h>
+#include <string.h>
+#include "khaibao.h"
+#include "IO_File.h"
 #define X 118
 #define Y 28
 #define INSERT -82
@@ -32,7 +32,8 @@
 #define NAME_PROGRAM "NHOM 44 - THI TRAC NGHIEM"
 #include "GiaoDien.h"
 
-int main(){
+int main()
+{
 	//theme();
 	Menu_GV();
 }
