@@ -118,6 +118,7 @@ int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50])
         } // end switch
     } while (1);
 }
+
 void Menu_GV()
 {
     char thucdon[so_item_menu_Main][50] = {

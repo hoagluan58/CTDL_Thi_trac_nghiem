@@ -79,17 +79,44 @@ typedef struct SinhVien
 	}
 } SV;
 
+struct NodeSV{
+	SV sv;
+	NodeSV *next;
+};
+
+NodeSV* CreateNodeSV(SV sv){
+	NodeSV* node = new NodeSV;
+	node->sv = sv;
+	node->next = NULL;
+	return node;
+}
+
 typedef struct DSSinhVien
 {
-    SV *pHead = NULL;
+    NodeSV *first;
+    NodeSV *last;
     int tong = 0;
     
     void Init(){
     	
 	}
-    
 } DSSinhVien;
 
+void CreateDSSV(DSSinhVien &dssv){
+	dssv.first = NULL;
+	dssv.last = NULL;
+}
+
+void Add_SV_Last(DSSinhVien &dssv, NodeSV *node){
+	if(dssv.first = NULL){
+		dssv.first = node;
+		dssv.last = node;
+	}
+	else{
+		dssv.last->next = node;
+		dssv.last = node;
+	}
+}
 //------------DANH SACH LOP(MANG CON TRO)-----------------
 typedef struct Lop
 {

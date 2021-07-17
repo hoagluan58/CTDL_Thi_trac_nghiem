@@ -7,6 +7,12 @@ void Clear_Data_Input()
 	printf("%s", "                     ");
 	gotoxy(90, 6);
 	printf("%s", "                     ");
+	gotoxy(90, 8);
+	printf("%s", "                     ");
+	gotoxy(90, 10);
+	printf("%s", "                     ");
+	gotoxy(90, 12);
+	printf("%s", "                     ");
 }
 void Draw_Frame_DSLop()
 {
@@ -257,6 +263,25 @@ void Add_SinhVien()
 
 	} while (1);
 }
+
+void Show_1_SV(SV *sv, int x, int y){
+	gotoxy(x, y);
+	printf("%s", sv->MSSV);
+	gotoxy(x + 25, y);
+	printf("%s", sv->HO, sv-> TEN); // Fix Xuat Ho va Ten trong 1 o gium
+	gotoxy(x + 50, y);
+	printf("%s", sv->PHAI);
+}
+
+void Show_DSSV(DSSinhVien dssv, int start, int end, int pos){
+	if(dssv.first != NULL){
+		NodeSV *node = dssv.first;
+		while(node != NULL){
+			cout << node->sv.MSSV;
+			node = node->next;
+		}
+	}
+}
 void Giaodien_Dssv()
 {
 	Draw_Frame_DSSV();
@@ -275,6 +300,7 @@ void Giaodien_Dssv()
 		}
 	}
 }
+
 void Case1(DSLop &dsl)
 {
 	Draw_Frame_DSLop();
