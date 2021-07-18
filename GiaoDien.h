@@ -1,6 +1,7 @@
 #include "Theme.cpp"
 #include "Input.h"
 #include "Case1.cpp"
+#include "Case2.cpp"
 using namespace std;
 DSLop dsl;
 
@@ -123,7 +124,7 @@ void Menu_GV()
 {
     char thucdon[so_item_menu_Main][50] = {
         "     1. QUAN LI LOP         ",
-        "     2. NHAP SINH VIEN      ",
+        "     2. QUAN LI MON HOC     ",
         "     3. THI TRAC NGHIEM     ",
         "     4. EXIT                "};
     int chon = 0;
@@ -136,6 +137,7 @@ void Menu_GV()
             Case1(dsl);
             break;
         case 2:
+        	Case2();
             break;
         case 3:
             break;
