@@ -1,5 +1,6 @@
 #define MAXCAUHOI 200
 #define MAXMONHOC 100
+#define MAXSINHVIEN 100
 #include <iostream>
 using namespace std;
 //----------DANH SACH CAU HOI(DS TUYEN TINH)-----------
@@ -96,33 +97,43 @@ typedef struct DSSinhVien
     NodeSV *first;
     NodeSV *last;
     int tong = 0;
+    NodeSV *ArrSinhVien[MAXSINHVIEN];
     
     void Init(){
-    	
+    	this->first = NULL;
+		this->last = NULL;
+	}
+	void Add_SV_Last(NodeSV *node){
+		if(this->first == NULL){
+			this->first = node;
+			this->last = node;
+			this->tong++;
+		}
+		else{
+			this->last->next = node;
+			this->last = node;
+			this->tong++;
+		}
+	}
+	void Insert_DSSV_to_ArrSinhVien(){
+		int dem =0;
+		for(NodeSV *p = first; p!=NULL; p= p->next){
+			ArrSinhVien[dem] = new NodeSV;
+			ArrSinhVien[dem] = p;
+			dem++;
+		}
 	}
 } DSSinhVien;
 
-void CreateDSSV(DSSinhVien &dssv){
-	dssv.first = NULL;
-	dssv.last = NULL;
-}
 
-void Add_SV_Last(DSSinhVien &dssv, NodeSV *node){
-	if(dssv.first = NULL){
-		dssv.first = node;
-		dssv.last = node;
-	}
-	else{
-		dssv.last->next = node;
-		dssv.last = node;
-	}
-}
+
 //------------DANH SACH LOP(MANG CON TRO)-----------------
 typedef struct Lop
 {
     char MALOP[20];
     char TENLOP[40];
-    DSSinhVien *DSSV;
+    DSSinhVien *DSSV = new DSSinhVien;
+    int soluong = 0;
 } Lop;
 
 typedef struct DSLop
@@ -141,6 +152,7 @@ typedef struct DSLop
             this->node[n] = new Lop;
             strcpy(this->node[n]->MALOP, lop.MALOP);
             strcpy(this->node[n]->TENLOP, lop.TENLOP);
+            this->node[n]->DSSV = lop.DSSV;
             this->n++;
         }
     }

@@ -16,6 +16,7 @@ void Clear_Data_Input()
 }
 void Draw_Frame_DSLop()
 {
+	system("cls");
 	Draw_Frame_Main(0, 0, X, Y, "QUAN LI LOP - THI TRAC NGHIEM");
 	Draw_Frame(3, 3, 70, 22);
 	Draw_H(3, 5, 70);
@@ -127,6 +128,7 @@ void Clear_Data_DSLop()
 		Show_1_Lop(&lop, x, y + i);
 	}
 }
+
 void Show_DSLop(DSLop dsl, int start, int end, int pos)
 {
 	Clear_Data_DSLop();
@@ -185,7 +187,64 @@ void Draw_Frame_DSSV_Input()
 	printf("%s", "PASSWORD");
 }
 
-void Add_SinhVien()
+void Show_1_SV(SV *sv, int x, int y){
+	gotoxy(x, y);
+	printf("%s", sv->MSSV);
+	gotoxy(x + 25, y);
+	printf("%s %s", sv->HO, sv-> TEN); // Fix Xuat Ho va Ten trong 1 o gium
+	gotoxy(x + 63, y);
+	if(sv->PHAI==0) {
+		printf("NU");
+	}else{
+		printf("NAM");
+	}
+	
+	gotoxy(90, 4);
+	printf("%s", sv->MSSV);
+	gotoxy(90, 6);
+	printf("%s",  sv->HO);
+	gotoxy(90, 8);
+	printf("%s", sv-> TEN);
+	gotoxy(90, 10);
+	printf("     ");
+	if(sv->PHAI==0) {
+		printf("NU");
+	}else{
+		printf("NAM");
+	}
+	gotoxy(90, 12);
+	printf("%s", "*********");
+
+}
+void Clear_Data_DSSV(int x,int y)
+{
+	Normal_Text();
+	SV sv;
+	strcpy(sv.MSSV, "            ");
+	strcpy(sv.HO, "             ");
+	strcpy(sv.TEN, "             ");
+	strcpy(sv.PASS, "             ");
+	Show_1_SV(&sv,x,y);
+}
+void Show_DSSV(NodeSV *arrSV[], int start, int end, int pos){
+	int x = 5, y = 6;
+	if(end == 0) {
+		gotoxy(x + 25, y);
+		printf("DANH SACH TRONG");
+		return;
+	}
+	Normal_Text();
+	for (int i = start; i < end; i++)
+	{
+		Clear_Data_DSSV(x,y + i - start);
+		Show_1_SV(&arrSV[i]->sv, x, y + i - start);
+	}
+	Clear_Data_DSSV(x, y + pos);
+	HighLight_Text();
+	Show_1_SV(&arrSV[start+pos]->sv, x, y + pos);
+}
+
+void Add_SinhVien(DSSinhVien &dssv)
 {
 	Normal_Text();
 	Clear_Data_Input();
@@ -256,6 +315,7 @@ void Add_SinhVien()
 			}
 			break;
 		case CTRL_S:
+			dssv.Add_SV_Last(CreateNodeSV(sv));
 			return;
 		case ESC:
 			return;
@@ -264,36 +324,64 @@ void Add_SinhVien()
 	} while (1);
 }
 
-void Show_1_SV(SV *sv, int x, int y){
-	gotoxy(x, y);
-	printf("%s", sv->MSSV);
-	gotoxy(x + 25, y);
-	printf("%s", sv->HO, sv-> TEN); // Fix Xuat Ho va Ten trong 1 o gium
-	gotoxy(x + 50, y);
-	printf("%s", sv->PHAI);
-}
-
-void Show_DSSV(DSSinhVien dssv, int start, int end, int pos){
-	if(dssv.first != NULL){
-		NodeSV *node = dssv.first;
-		while(node != NULL){
-			cout << node->sv.MSSV;
-			node = node->next;
-		}
-	}
-}
-void Giaodien_Dssv()
+void Giaodien_Dssv(DSSinhVien &dssv, DSLop &dsl)
 {
 	Draw_Frame_DSSV();
 	Draw_Frame_DSSV_Input();
+	dssv.Insert_DSSV_to_ArrSinhVien();
 	char key;
+	int pos = 0;
+	int start = 0, end = 0;
+	if (dssv.tong > MAX_LIST)
+	{
+		end = MAX_LIST;
+	}
+	else
+		end = dssv.tong;
 	while (true)
 	{
+		Show_DSSV(dssv.ArrSinhVien,start,end,pos);
 		key = GetKey();
 		switch (key)
 		{
+			case UP:
+				if (pos > 0)
+				{
+					pos--;
+				}
+				if (start > 0 && pos == 0)
+				{
+					start--;
+					end--;
+				}
+				break;
+			case DOWN:
+				if (pos < MAX_LIST - 1 && pos < dssv.tong - 1)
+				{
+					pos++;
+				}
+				if (end < dssv.tong && pos == MAX_LIST - 1)
+				{
+					start++;
+					end++;
+				}
+			break;
 			case F2:
-				Add_SinhVien();
+				Add_SinhVien(dssv);
+				Save_DS_Lop_File(dsl);
+				Read_DS_Lop_File(dsl);
+				dssv.Insert_DSSV_to_ArrSinhVien();
+				if (dssv.tong > MAX_LIST)
+				{
+					end = MAX_LIST;
+					pos = MAX_LIST - 1;
+				}
+				else
+				{
+					end = dssv.tong;
+					pos = dssv.tong - 1;
+				}
+				start = end - pos - 1;
 				break;
 			case ESC:
 				return;
@@ -333,7 +421,7 @@ void Case1(DSLop &dsl)
 			}
 			break;
 		case DOWN:
-			if (pos < MAX_LIST - 1)
+			if (pos < MAX_LIST - 1 && pos < dsl.n - 1)
 			{
 				pos++;
 			}
@@ -345,12 +433,22 @@ void Case1(DSLop &dsl)
 			break;
 		case F2:
 			Add_Lop(dsl);
-			pos = MAX_LIST - 1;
-			end = dsl.n;
+			if (dsl.n > MAX_LIST)
+			{
+				end = MAX_LIST;
+				pos = MAX_LIST - 1;
+			}
+			else
+			{
+				end = dsl.n;
+				pos = dsl.n - 1;
+			}
 			start = end - pos - 1;
 			break;
 		case ENTER:
-			Giaodien_Dssv();
+			Giaodien_Dssv(*dsl.node[start+pos]->DSSV,dsl);
+			Draw_Frame_DSLop();
+			Draw_Frame_DSLop_Input();
 			break;
 		case ESC:
 			return;
