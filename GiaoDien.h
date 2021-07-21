@@ -4,6 +4,7 @@
 #include "Case2.cpp"
 using namespace std;
 DSLop dsl;
+NodeMH nodeMH; 
 
 //===========LOGIN==============
 void Menu_GV();
@@ -137,7 +138,7 @@ void Menu_GV()
             Case1(dsl);
             break;
         case 2:
-        	Case2();
+        	Case2(nodeMH);
             break;
         case 3:
             break;

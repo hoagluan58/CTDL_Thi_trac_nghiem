@@ -1,5 +1,5 @@
 //========================CASE 1===================
-const int MAX_LIST = 20;
+
 
 void Clear_Data_Input()
 {

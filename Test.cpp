@@ -30,8 +30,8 @@
 #define CTRL_ENTER 10
 #define DEL -83
 #define NAME_PROGRAM "NHOM 44 - THI TRAC NGHIEM"
+#define MAX_LIST 20
 #include "GiaoDien.h"
-
 int main()
 {
 	//theme();

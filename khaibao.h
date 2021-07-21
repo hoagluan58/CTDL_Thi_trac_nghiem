@@ -25,18 +25,29 @@ typedef struct DSCauHoi
 typedef struct MonHoc
 {
     char MAMH[16];
-    string TENMH;
+    char TENMH[25];
     DSCauHoi dsch;
 } MonHoc;
 
-typedef struct DSMonHoc
+struct NodeMonHoc
 {
     MonHoc mon;
-    struct DSMonHoc *pLeft;
-    struct DSMonHoc *pRight;
-} DSMonHoc;
-typedef struct DSMonHoc NODE;
-typedef NODE *TREE;
+    struct NodeMonHoc *pLeft;
+    struct NodeMonHoc *pRight;
+};
+typedef struct NodeMonHoc *NodeMH;
+
+void Insert_MH(NodeMH &p, MonHoc mh) { //them 1 mh vao cay nhi phan
+    if (p == NULL) {
+        p = new NodeMonHoc;
+        p -> mon = mh;
+        p -> pLeft = NULL;
+        p -> pRight = NULL;
+    } else {
+        if (mh.MAMH < p -> mon.MAMH) Insert_MH(p -> pLeft, mh);
+        else if (mh.MAMH > p -> mon.MAMH) Insert_MH(p -> pRight, mh);
+    }
+}
 
 //----------DANH SACH CAU HOI DA THUC HIEN------------
 typedef struct ChiTietCauHoi

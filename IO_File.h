@@ -87,3 +87,35 @@ void Read_DS_Lop_File(DSLop &dsl)
     }
 }
 
+//ghi danh sach mon hoc vao file
+void Write_Tree_File(NodeMH & p, fstream & write) {
+    if (p != NULL) {
+        write << p->mon.MAMH<< "," << p->mon.TENMH<< endl;
+        Write_Tree_File(p -> pLeft, write);
+        Write_Tree_File(p -> pRight, write);
+    }
+}
+void Save_Tree_File(NodeMH & p) {
+    fstream write;
+    write.open("DSMonHoc.txt", ios::out | ios::trunc);
+    Write_Tree_File(p, write);
+    write.close();
+}
+void Read_DS_MH_File(NodeMH &nodeMH)
+{
+    fstream readFile;
+    readFile.open("DSMonHoc.txt", ios::in);
+    string data = "";
+    while (!readFile.eof())
+    {
+        MonHoc mh;
+        getline(readFile, data, ',');
+        strcpy(mh.MAMH, data.c_str());
+        getline(readFile, data);
+        strcpy(mh.TENMH, data.c_str());
+        if (strcmp(mh.MAMH, "") != 0)
+        Insert_MH(nodeMH,mh);
+        // do no se doc dong cuoi cung, ma dong cuoi cung khong co gia tri no cung doc, nen khac null moi duoc them vao
+    }
+}
+
