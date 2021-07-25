@@ -125,6 +125,65 @@ void Add_MonHoc(NodeMH &nodeMH)
 	} while (1);
 }
 
+void Draw_Frame_DSCH(){
+	system("cls");
+	Draw_Frame_Main(0, 0, X, Y, "QUAN LI CAU HOI - THI TRAC NGHIEM");
+	Draw_Frame(3, 3, 50, 22);
+	Draw_H(3, 5, 50);
+	gotoxy(20, 4);
+	printf("%s", "DANH SACH CAU HOI");
+}
+
+void Draw_Frame_DSCH_Input(){
+	Draw_Frame(55, 3, 62, 11);
+	Draw_H(55, 5, 62);
+	Draw_H(55, 7, 62);
+	Draw_H(55, 9, 62);
+	Draw_H(55, 11, 62);
+	Draw_H(55, 13, 62);
+	Draw_I(65, 3, 11);
+	gotoxy(65, 5);
+	printf("%c", char(206));
+	gotoxy(56, 4);
+	printf("%s", "CAU HOI");
+	gotoxy(56, 6);
+	printf("%s", "CAU A");
+	gotoxy(56, 8);
+	printf("%s", "CAU B");
+	gotoxy(56, 10);
+	printf("%s", "CAU C");
+	gotoxy(56, 12);
+	printf("%s", "CAU D");
+	gotoxy(56, 14);
+	printf("%s", "DAP AN");
+}
+
+void GiaoDien_QuanLiCauHoi(){
+	Draw_Frame_DSCH();
+	Draw_Frame_DSCH_Input();
+	char key;
+	while(true){
+		
+		key = GetKey();
+		switch (key)
+		{
+		case UP:
+		
+			break;
+		case DOWN:
+			
+			break;
+		case F2:
+		
+			break;
+		case ENTER:
+			break;
+		case ESC:
+			return;
+		}
+	}
+}
+
 void Case2(NodeMH &nodeMH){
 	Draw_Frame_DSMH();
 	Draw_Frame_DSMH_Input();
@@ -172,6 +231,7 @@ void Case2(NodeMH &nodeMH){
 			Save_Tree_File(nodeMH);
 			break;
 		case ENTER:
+			GiaoDien_QuanLiCauHoi();
 			break;
 		case ESC:
 			return;
