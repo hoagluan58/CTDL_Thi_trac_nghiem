@@ -17,6 +17,7 @@ void Draw_Frame_DSMH_Input(){
 	Draw_Frame(75, 3, 40, 3);
 	Draw_H(75, 5, 40);
 	Draw_I(88, 3, 3);
+	Clear_Data_Input();
 	gotoxy(88, 5);
 	printf("%c", char(206));
 	gotoxy(77, 4);
@@ -42,8 +43,8 @@ void Clear_Data_DSMonHoc()
 	int x = 5, y = 6;
 	Normal_Text();
 	MonHoc mh;
-	strcpy(mh.MAMH, "                   ");
-	strcpy(mh.TENMH, "                    ");
+	strcpy(mh.MAMH, "                     ");
+	strcpy(mh.TENMH, "                      ");
 	for (int i = 0; i < MAX_LIST; i++)
 	{
 		Show_1_MonHoc(mh, x, y + i);
@@ -125,7 +126,20 @@ void Add_MonHoc(NodeMH &nodeMH)
 	} while (1);
 }
 
-
+void Clear_Data_Input_DSCH(){
+	gotoxy(67, 4);
+	printf("%s", "                          ");
+	gotoxy(67, 6);  
+	printf("%s", "                          ");
+	gotoxy(67, 8);
+	printf("%s", "                         ");
+	gotoxy(67, 10);
+	printf("%s", "                         ");
+	gotoxy(67, 12);
+	printf("%s", "                         ");
+	gotoxy(67, 14);
+	printf("%s", "                         ");
+}
 
 void Draw_Frame_DSCH(){
 	system("cls");
@@ -144,6 +158,7 @@ void Draw_Frame_DSCH_Input(){
 	Draw_H(55, 11, 62);
 	Draw_H(55, 13, 62);
 	Draw_I(65, 3, 11);
+	Clear_Data_Input_DSCH();
 	gotoxy(65, 5);
 	printf("%c", char(206));
 	gotoxy(56, 4);
@@ -160,6 +175,55 @@ void Draw_Frame_DSCH_Input(){
 	printf("%s", "DAP AN");
 }
 
+void Show_1_CauHoi(CauHoi ch, int x, int y)
+{
+	gotoxy(x, y);
+	printf("%s", ch.NOIDUNG);
+	Clear_Data_Input_DSCH();
+	gotoxy(67, 4);
+	printf("%s", ch.NOIDUNG);
+	gotoxy(67, 6);
+	printf("%s", ch.A);
+	gotoxy(67, 8);
+	printf("%s", ch.B);
+	gotoxy(67, 10);
+	printf("%s", ch.C);
+	gotoxy(67, 12);
+	printf("%s", ch.D);
+	gotoxy(67, 14);
+	printf("%s", ch.DA);
+}
+void Clear_Data_DSCauHoi()
+{
+	int x = 5, y = 6;
+	Normal_Text();
+	CauHoi ch;
+	strcpy(ch.NOIDUNG, "                             ");
+	strcpy(ch.A, "                               ");
+	strcpy(ch.B, "                               ");
+	strcpy(ch.C, "                               ");
+	strcpy(ch.D, "                               ");
+	strcpy(ch.DA, "                               ");
+	
+	for (int i = 0; i < MAX_LIST; i++)
+	{
+		Show_1_CauHoi(ch, x, y + i);
+	}
+}
+
+void Show_DSCauHoi(DSCauHoi dsch, int start, int end, int pos)
+{
+	Clear_Data_DSCauHoi();
+	int x = 5, y = 6;
+	Normal_Text();
+	for (int i = start; i < end; i++)
+	{
+		Show_1_CauHoi(dsch.dsch[i], x, y + i - start);
+	}
+	HighLight_Text();
+	Show_1_CauHoi(dsch.dsch[start + pos], x, y + pos);
+}
+
 void Add_CauHoi(DSCauHoi &dsch)
 {
 	Normal_Text();
@@ -174,48 +238,48 @@ void Add_CauHoi(DSCauHoi &dsch)
 	strcpy(ch.DA,"");
 	do
 	{
-		gotoxy(66, 4 + chon * 2);
+		gotoxy(67, 4 + chon * 2);
 		if (wherey() == 4)
 		{
 			cout << ch.NOIDUNG;
 			char str[sizeof(ch.NOIDUNG)] = "";
 			strcpy(str, ch.NOIDUNG);
-			strcpy(ch.NOIDUNG, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.NOIDUNG) - 1));
+			strcpy(ch.NOIDUNG, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.NOIDUNG) - 1));
 		}
 		else if (wherey() == 6)
 		{
 			cout << ch.A;
 			char str[sizeof(ch.A)] = "";
 			strcpy(str, ch.A);
-			strcpy(ch.A, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.A) - 1));
+			strcpy(ch.A, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.A) - 1));
 		}
 		else if (wherey() == 8)
 		{
 			cout << ch.B;
 			char str[sizeof(ch.B)] = "";
 			strcpy(str, ch.B);
-			strcpy(ch.B, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.B) - 1));
+			strcpy(ch.B, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.B) - 1));
 		}
 		else if (wherey() == 10)
 		{
 			cout << ch.C;
 			char str[sizeof(ch.C)] = "";
 			strcpy(str, ch.C);
-			strcpy(ch.C, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.C) - 1));
+			strcpy(ch.C, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.C) - 1));
 		}
 		else if (wherey() == 12)
 		{
 			cout << ch.D;
 			char str[sizeof(ch.D)] = "";
 			strcpy(str, ch.D);
-			strcpy(ch.D, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.D) - 1));
+			strcpy(ch.D, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.D) - 1));
 		}
 		else if (wherey() == 14)
 		{
 			cout << ch.DA;
 			char str[sizeof(ch.DA)] = "";
 			strcpy(str, ch.DA);
-			strcpy(ch.DA, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.DA) - 1));
+			strcpy(ch.DA, Input_Str_Int(str, 67, 4 + chon * 2, sizeof(ch.DA) - 1));
 		}
 		int key = GetKey();
 		switch (key)
@@ -258,15 +322,40 @@ void GiaoDien_QuanLiCauHoi(DSCauHoi &dsch){
 	Draw_Frame_DSCH();
 	Draw_Frame_DSCH_Input();
 	char key;
+	int pos = 0;
+	int start = 0, end = 0;
+	if (dsch.tong > MAX_LIST)
+	{
+		end = MAX_LIST;
+	}
+	else
+		end = dsch.tong;
 	while(true){
+		Show_DSCauHoi(dsch, start, end, pos);
 		key = GetKey();
 		switch (key)
 		{
 		case UP:
-		
+			if (pos > 0)
+			{
+				pos--;
+			}
+			if (start > 0 && pos == 0)
+			{
+				start--;
+				end--;
+			}
 			break;
 		case DOWN:
-			
+			if (pos < MAX_LIST - 1 && pos < dsch.tong - 1)
+			{
+				pos++;
+			}
+			if (end < dsch.tong && pos == MAX_LIST - 1)
+			{
+				start++;
+				end++;
+			}
 			break;
 		case F2:
 			Add_CauHoi(dsch);
@@ -324,6 +413,11 @@ void Case2(NodeMH &nodeMH){
 		case F2:
 			Add_MonHoc(nodeMH);
 			Save_Tree_File(nodeMH);
+			break;
+		case DEL:
+			Remove_MH(nodeMH,dsmh.DSMH[start+pos]->mon.MAMH);
+			Save_Tree_File(nodeMH);
+			Read_DS_MH_File(nodeMH);
 			break;
 		case ENTER:
 			GiaoDien_QuanLiCauHoi(dsmh.DSMH[start+pos]->mon.dsch);

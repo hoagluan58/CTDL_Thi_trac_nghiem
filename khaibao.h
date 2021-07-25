@@ -53,8 +53,8 @@ void Insert_MH(NodeMH &p, MonHoc mh) { //them 1 mh vao cay nhi phan
         p -> pLeft = NULL;
         p -> pRight = NULL;
     } else {
-        if (mh.MAMH < p -> mon.MAMH) Insert_MH(p -> pLeft, mh);
-        else if (mh.MAMH > p -> mon.MAMH) Insert_MH(p -> pRight, mh);
+        if (strcmp(mh.MAMH,p -> mon.MAMH) < 0) Insert_MH(p -> pLeft, mh);
+        else if (strcmp(mh.MAMH,p -> mon.MAMH) > 0) Insert_MH(p -> pRight, mh);
     }
 }
 
@@ -65,6 +65,51 @@ void Insert_MH_toArray(NodeMH &p, DSMH &dsmh){
     	dsmh.DSMH[dsmh.tong] = p;
     	dsmh.tong++;
         Insert_MH_toArray(p -> pRight, dsmh);
+	}
+}
+
+void Remove_MH_case3(NodeMH & p, NodeMH &rp) { // tim nut thay the nut can phai xoa (nut cuc trai cua nhanh phai nut can xoa)
+    if (p -> pLeft != NULL) { // neu chua phai la cuc trai thi duyet tiep
+        Remove_MH_case3(p -> pLeft, rp);
+    } else {
+        rp -> mon = p -> mon; //gan nut can xoa bang nut thay the (that ra la xoa nut thay the chu k phai la xoa p)
+        rp = p; // gan lai dia chi con tro
+        p = p -> pRight; // neu nut thay the co nhanh phai thi gan lai nhanh phai vao nut thay the
+    }
+}
+void Remove_MH(NodeMH & p, char MAMH[]) {
+    if (p == NULL) printf("\n\t\tKhong tim thay mon hoc can xoa!\n");
+    else {
+        if (strcmp(MAMH,p -> mon.MAMH) < 0) Remove_MH(p -> pLeft, MAMH);
+        else if (strcmp(MAMH,p -> mon.MAMH) > 0) Remove_MH(p -> pRight, MAMH);
+        else { // da tim thay ma mon hoc can xoa
+            NodeMH rp = p;
+            if (rp -> pLeft == NULL) { // p la nut la hoac nut co 1 cay con ben phai
+                p = rp -> pRight;
+            } else if (rp -> pRight == NULL) { // p la nut la hoac nut co 1 cay con ben trai
+                p = rp -> pLeft;
+            } else { // p co 2 cay con ben trai va phai
+                Remove_MH_case3(rp -> pRight, p);
+            }
+            delete rp;
+        }
+    }
+}
+
+void Traverse_LNR(NodeMH & p) {
+    if (p != NULL) {
+        Traverse_LNR(p -> pLeft);
+        printf("\t%s\t%s\t\n", p -> mon.MAMH, p -> mon.TENMH);
+        Traverse_LNR(p -> pRight);
+    }
+}
+
+void DeleteAllMonHoc(NodeMH &node){
+	if(node != NULL){
+		DeleteAllMonHoc(node->pLeft);
+		DeleteAllMonHoc(node->pRight);
+		delete node;
+//		node = NULL;
 	}
 }
 

@@ -108,6 +108,11 @@ void Read_DS_MH_File(NodeMH &nodeMH)
 {
     fstream readFile;
     readFile.open("DSMonHoc.txt", ios::in);
+    
+    if(nodeMH!=NULL){
+    	DeleteAllMonHoc(nodeMH);
+	}
+	nodeMH=NULL;
     string data = "";
     while (!readFile.eof())
     {
