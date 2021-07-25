@@ -25,43 +25,43 @@ void Draw_Frame_DSMH_Input(){
 	printf("%s", "TEN MON");
 }
 
-//void Show_1_MonHoc(Lop *lop, int x, int y)
-//{
-//	gotoxy(x, y);
-//	printf("%s", lop->MALOP);
-//	gotoxy(x + 25, y);
-//	printf("%s", lop->TENLOP);
-//	Clear_Data_Input();
-//	gotoxy(90, 4);
-//	printf("%s", lop->MALOP);
-//	gotoxy(90, 6);
-//	printf("%s", lop->TENLOP);
-//}
-//void Clear_Data_DSMonHoc()
-//{
-//	int x = 5, y = 6;
-//	Normal_Text();
-//	Lop lop;
-//	strcpy(lop.MALOP, "                   ");
-//	strcpy(lop.TENLOP, "                    ");
-//	for (int i = 0; i < MAX_LIST; i++)
-//	{
-//		Show_1_Lop(&lop, x, y + i);
-//	}
-//}
-//
-//void Show_DSMonHoc(DSLop dsl, int start, int end, int pos)
-//{
-//	Clear_Data_DSLop();
-//	int x = 5, y = 6;
-//	Normal_Text();
-//	for (int i = start; i < end; i++)
-//	{
-//		Show_1_Lop(dsl.node[i], x, y + i - start);
-//	}
-//	HighLight_Text();
-//	Show_1_Lop(dsl.node[start + pos], x, y + pos);
-//}
+void Show_1_MonHoc(MonHoc mh, int x, int y)
+{
+	gotoxy(x, y);
+	printf("%s", mh.MAMH);
+	gotoxy(x + 25, y);
+	printf("%s", mh.TENMH);
+	Clear_Data_Input();
+	gotoxy(90, 4);
+	printf("%s", mh.MAMH);
+	gotoxy(90, 6);
+	printf("%s", mh.TENMH);
+}
+void Clear_Data_DSMonHoc()
+{
+	int x = 5, y = 6;
+	Normal_Text();
+	MonHoc mh;
+	strcpy(mh.MAMH, "                   ");
+	strcpy(mh.TENMH, "                    ");
+	for (int i = 0; i < MAX_LIST; i++)
+	{
+		Show_1_MonHoc(mh, x, y + i);
+	}
+}
+
+void Show_DSMonHoc(DSMH dsmh, int start, int end, int pos)
+{
+	Clear_Data_DSLop();
+	int x = 5, y = 6;
+	Normal_Text();
+	for (int i = start; i < end; i++)
+	{
+		Show_1_MonHoc(dsmh.DSMH[i]->mon, x, y + i - start);
+	}
+	HighLight_Text();
+	Show_1_MonHoc(dsmh.DSMH[start + pos]->mon, x, y + pos);
+}
 
 void Add_MonHoc(NodeMH &nodeMH)
 {
@@ -129,16 +129,43 @@ void Case2(NodeMH &nodeMH){
 	Draw_Frame_DSMH();
 	Draw_Frame_DSMH_Input();
 	Read_DS_MH_File(nodeMH);
+	DSMH dsmh;
+	Insert_MH_toArray(nodeMH,dsmh);
 	char key;
 	int pos = 0;
 	int start = 0, end = 0;
+	if (dsmh.tong > MAX_LIST)
+	{
+		end = MAX_LIST;
+	}
+	else
+		end = dsmh.tong;
 	while(true){
+		Show_DSMonHoc(dsmh, start, end, pos);
 		key = GetKey();
 		switch (key)
 		{
 		case UP:
+			if (pos > 0)
+			{
+				pos--;
+			}
+			if (start > 0 && pos == 0)
+			{
+				start--;
+				end--;
+			}
 			break;
 		case DOWN:
+			if (pos < MAX_LIST - 1 && pos < dsmh.tong - 1)
+			{
+				pos++;
+			}
+			if (end < dsmh.tong && pos == MAX_LIST - 1)
+			{
+				start++;
+				end++;
+			}
 			break;
 		case F2:
 			Add_MonHoc(nodeMH);

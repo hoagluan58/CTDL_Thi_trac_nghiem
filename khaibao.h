@@ -37,6 +37,12 @@ struct NodeMonHoc
 };
 typedef struct NodeMonHoc *NodeMH;
 
+typedef struct DSMonHoc
+{
+	NodeMonHoc *DSMH[200];
+	int tong = 0;
+} DSMH;
+
 void Insert_MH(NodeMH &p, MonHoc mh) { //them 1 mh vao cay nhi phan
     if (p == NULL) {
         p = new NodeMonHoc;
@@ -47,6 +53,16 @@ void Insert_MH(NodeMH &p, MonHoc mh) { //them 1 mh vao cay nhi phan
         if (mh.MAMH < p -> mon.MAMH) Insert_MH(p -> pLeft, mh);
         else if (mh.MAMH > p -> mon.MAMH) Insert_MH(p -> pRight, mh);
     }
+}
+
+void Insert_MH_toArray(NodeMH &p, DSMH &dsmh){
+	if(p!=NULL){
+		Insert_MH_toArray(p -> pLeft, dsmh);
+    	dsmh.DSMH[dsmh.tong] = new NodeMonHoc;
+    	dsmh.DSMH[dsmh.tong] = p;
+    	dsmh.tong++;
+        Insert_MH_toArray(p -> pRight, dsmh);
+	}
 }
 
 //----------DANH SACH CAU HOI DA THUC HIEN------------
