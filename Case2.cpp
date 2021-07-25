@@ -125,6 +125,8 @@ void Add_MonHoc(NodeMH &nodeMH)
 	} while (1);
 }
 
+
+
 void Draw_Frame_DSCH(){
 	system("cls");
 	Draw_Frame_Main(0, 0, X, Y, "QUAN LI CAU HOI - THI TRAC NGHIEM");
@@ -158,12 +160,105 @@ void Draw_Frame_DSCH_Input(){
 	printf("%s", "DAP AN");
 }
 
-void GiaoDien_QuanLiCauHoi(){
+void Add_CauHoi(DSCauHoi &dsch)
+{
+	Normal_Text();
+	Draw_Frame_DSCH_Input();
+	int chon = 0;
+	CauHoi ch;
+	strcpy(ch.NOIDUNG,"");
+	strcpy(ch.A,"");
+	strcpy(ch.B,"");
+	strcpy(ch.C,"");
+	strcpy(ch.D,"");
+	strcpy(ch.DA,"");
+	do
+	{
+		gotoxy(66, 4 + chon * 2);
+		if (wherey() == 4)
+		{
+			cout << ch.NOIDUNG;
+			char str[sizeof(ch.NOIDUNG)] = "";
+			strcpy(str, ch.NOIDUNG);
+			strcpy(ch.NOIDUNG, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.NOIDUNG) - 1));
+		}
+		else if (wherey() == 6)
+		{
+			cout << ch.A;
+			char str[sizeof(ch.A)] = "";
+			strcpy(str, ch.A);
+			strcpy(ch.A, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.A) - 1));
+		}
+		else if (wherey() == 8)
+		{
+			cout << ch.B;
+			char str[sizeof(ch.B)] = "";
+			strcpy(str, ch.B);
+			strcpy(ch.B, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.B) - 1));
+		}
+		else if (wherey() == 10)
+		{
+			cout << ch.C;
+			char str[sizeof(ch.C)] = "";
+			strcpy(str, ch.C);
+			strcpy(ch.C, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.C) - 1));
+		}
+		else if (wherey() == 12)
+		{
+			cout << ch.D;
+			char str[sizeof(ch.D)] = "";
+			strcpy(str, ch.D);
+			strcpy(ch.D, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.D) - 1));
+		}
+		else if (wherey() == 14)
+		{
+			cout << ch.DA;
+			char str[sizeof(ch.DA)] = "";
+			strcpy(str, ch.DA);
+			strcpy(ch.DA, Input_Str_Int(str, 66, 4 + chon * 2, sizeof(ch.DA) - 1));
+		}
+		int key = GetKey();
+		switch (key)
+		{
+		case UP:
+			if (chon > 0)
+			{
+				chon--;
+			}
+			break;
+		case DOWN:
+			if (chon + 1 < 6)
+			{
+				chon++;
+			}
+			break;
+		case ENTER:
+			if (chon + 1 < 6)
+			{
+				chon++;
+			}
+			break;
+		case TAB:
+			if (chon + 1 < 6)
+			{
+				chon++;
+			}
+			break;
+		case CTRL_S:
+			dsch.InsertCauHoi(ch);
+			return;
+		case ESC:
+			return;
+		}
+
+	} while (1);
+}
+
+void GiaoDien_QuanLiCauHoi(DSCauHoi &dsch){
 	Draw_Frame_DSCH();
 	Draw_Frame_DSCH_Input();
 	char key;
 	while(true){
-		
 		key = GetKey();
 		switch (key)
 		{
@@ -174,7 +269,7 @@ void GiaoDien_QuanLiCauHoi(){
 			
 			break;
 		case F2:
-		
+			Add_CauHoi(dsch);
 			break;
 		case ENTER:
 			break;
@@ -231,7 +326,10 @@ void Case2(NodeMH &nodeMH){
 			Save_Tree_File(nodeMH);
 			break;
 		case ENTER:
-			GiaoDien_QuanLiCauHoi();
+			GiaoDien_QuanLiCauHoi(dsmh.DSMH[start+pos]->mon.dsch);
+			Save_Tree_File(nodeMH);
+			Draw_Frame_DSMH();
+			Draw_Frame_DSMH_Input();
 			break;
 		case ESC:
 			return;

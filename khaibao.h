@@ -6,19 +6,22 @@ using namespace std;
 //----------DANH SACH CAU HOI(DS TUYEN TINH)-----------
 typedef struct CauHoi
 {
-    int ID;
-    string NOIDUNG;
-    string A;
-    string B;
-    string C;
-    string D;
-    char DA;
+    char NOIDUNG[100];
+    char A[100];
+    char B[100];
+    char C[100];
+    char D[100];
+    char DA[2];
 } CauHoi;
 
 typedef struct DSCauHoi
 {
-    CauHoi list[MAXCAUHOI];
+    CauHoi dsch[MAXCAUHOI];
     int tong = 0;
+    void InsertCauHoi(CauHoi ch){
+    	this->dsch[this->tong]=ch;
+    	this->tong ++;
+	}
 } DSCauHoi;
 
 //---------DANH SACH MON HOC(CAY NHI PHAN TIM KIEM)------------

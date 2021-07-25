@@ -90,7 +90,10 @@ void Read_DS_Lop_File(DSLop &dsl)
 //ghi danh sach mon hoc vao file
 void Write_Tree_File(NodeMH & p, fstream & write) {
     if (p != NULL) {
-        write << p->mon.MAMH<< "," << p->mon.TENMH<< endl;
+        write << p->mon.MAMH<< "," << p->mon.TENMH<< "," << p->mon.dsch.tong<< endl;
+        for(int i=0; i<p->mon.dsch.tong;i++){
+        	write << p->mon.dsch.dsch[i].NOIDUNG << "," << p->mon.dsch.dsch[i].A << "," << p->mon.dsch.dsch[i].B << "," << p->mon.dsch.dsch[i].C << "," << p->mon.dsch.dsch[i].D << "," << p->mon.dsch.dsch[i].DA << endl;    
+		}
         Write_Tree_File(p -> pLeft, write);
         Write_Tree_File(p -> pRight, write);
     }
@@ -111,8 +114,26 @@ void Read_DS_MH_File(NodeMH &nodeMH)
         MonHoc mh;
         getline(readFile, data, ',');
         strcpy(mh.MAMH, data.c_str());
-        getline(readFile, data);
+        getline(readFile, data,',');
         strcpy(mh.TENMH, data.c_str());
+        getline(readFile, data);
+        int tong = Convert_String_to_Int(data);
+        for(int i=0;i<tong ;i++){
+        	CauHoi ch;
+        	getline(readFile, data, ',');
+        	strcpy(ch.NOIDUNG, data.c_str());
+        	getline(readFile, data, ',');
+        	strcpy(ch.A, data.c_str());
+        	getline(readFile, data, ',');
+        	strcpy(ch.B, data.c_str());
+        	getline(readFile, data, ',');
+        	strcpy(ch.C, data.c_str());
+        	getline(readFile, data, ',');
+        	strcpy(ch.D, data.c_str());
+        	getline(readFile, data);
+        	strcpy(ch.DA, data.c_str());
+        	mh.dsch.InsertCauHoi(ch);
+		}
         if (strcmp(mh.MAMH, "") != 0)
         Insert_MH(nodeMH,mh);
         // do no se doc dong cuoi cung, ma dong cuoi cung khong co gia tri no cung doc, nen khac null moi duoc them vao
