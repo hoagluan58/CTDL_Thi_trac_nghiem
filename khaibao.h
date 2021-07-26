@@ -198,6 +198,12 @@ typedef struct DSSinhVien
 			dem++;
 		}
 	}
+	bool LoginSinhVien(char username[], char password[]){
+		for(NodeSV *p = first; p!=NULL; p= p->next){
+			if(strcmp(p->sv.MSSV,username)==0 && strcmp(p->sv.PASS,password)==0) return true;
+		}
+		return false;
+	}
 } DSSinhVien;
 
 
@@ -207,7 +213,7 @@ typedef struct Lop
 {
     char MALOP[20];
     char TENLOP[40];
-    DSSinhVien *DSSV = new DSSinhVien;
+    DSSinhVien *DSSV;
     int soluong = 0;
 } Lop;
 
@@ -231,11 +237,19 @@ typedef struct DSLop
             this->n++;
         }
     }
+    bool LoginSinhVien(char username[], char password[]){
+    	for(int i=0; i<this->n; i++){
+    		bool check = this->node[i]->DSSV->LoginSinhVien(username,password);
+    		if(check) return true;
+		}
+		return false;
+	}
     void DeleteAllNode()
     {
         while (this->n > 0)
         {
             this->node[this->n - 1] = NULL;
+            delete this->node[this->n - 1];
             this->n--;
         }
     }

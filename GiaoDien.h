@@ -43,18 +43,85 @@ void DrawLoginForm(int x, int y, int rong, int dai)
 void Login()
 {
     char username[15] = "", password[20] = "";
+    int chon = 0;
+    Read_DS_Lop_File(dsl);
     DrawLoginForm(32, 10, 50, 10);
-    Input_Str_Int(username, 52, 14, 10);
-    Input_Str_Int(password, 52, 16, 10);
-    if (!strcmp(username, "GV") && !strcmp(password, "GV"))
-    {
-        cout << "\n Dang nhap thanh cong";
-        Menu_GV();
-    }
-    else
-    {
-        //Menu_SV();
-    }
+    do
+	{
+		gotoxy(52, 18);
+		Normal();
+		cout<<" Dang nhap ";
+		Normal_Text();
+		gotoxy(52, 14 + chon * 2);
+		if (wherey() == 14)
+		{
+			cout << username;
+			char str[sizeof(username)] = "";
+			strcpy(str, username);
+			strcpy(username, Input_Str_Int(str, 52, 14 + chon * 2, sizeof(username) - 1));
+		}
+		else if (wherey() == 16)
+		{
+			cout << password;
+			char str[sizeof(password)] = "";
+			strcpy(str, password);
+			strcpy(password, Input_Str_Int(str, 52, 14 + chon * 2, sizeof(password) - 1));
+		}
+		else if (wherey() == 18)
+		{
+			gotoxy(52, 18);
+			HighLight();
+			cout<<" Dang nhap ";
+			Normal_Text();
+		}
+		int key = GetKey();
+		switch (key)
+		{
+		case UP:
+			if (chon > 0)
+			{
+				chon--;
+			}
+			break;
+		case DOWN:
+			if (chon + 1 < 3)
+			{
+				chon++;
+			}
+			break;
+		case ENTER:
+			if (chon + 1 < 3)
+			{
+				chon++;
+			}
+			if(wherey()==18){
+				if (!strcmp(username, "GV") && !strcmp(password, "GV"))
+			    {
+			        cout << "\n Dang nhap thanh cong";
+			        Menu_GV();
+			    }
+			    else
+			    {
+			        if(dsl.LoginSinhVien(username,password)){
+			        	cout << "\n Dang nhap sinh vien thanh cong";
+			        	break;
+					}else{
+						cout << "\n Tai khoan hoac mat khau chua dung";
+						chon = 0;
+					}
+			    }    
+			}
+			break;
+		case TAB:
+			if (chon + 1 < 3)
+			{
+				chon++;
+			}
+			break;
+		}
+
+	} while (1);
+
 }
 
 //=========================MENu=================
@@ -154,7 +221,6 @@ void theme()
 {
     ColorAll();
     Draw_Frame_Main(0, 0, X, Y, NAME_PROGRAM);
-
     //intro();
     Login();
 }

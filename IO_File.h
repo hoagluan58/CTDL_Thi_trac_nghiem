@@ -64,6 +64,7 @@ void Read_DS_Lop_File(DSLop &dsl)
         strcpy(lop.MALOP, data.c_str());
         getline(readFile, data, ',');
         strcpy(lop.TENLOP, data.c_str());
+        lop.DSSV = new DSSinhVien;
         lop.DSSV->Init();
         getline(readFile, data);
         int n = Convert_String_to_Int(data);
