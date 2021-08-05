@@ -124,7 +124,7 @@ void Login()
 
 }
 
-//=========================MENu=================
+//=========================MENU=================
 void Draw_Button_Menu_Highligh(char td[so_item_menu_Main][50], int cot, int dong, int chon)
 {
     HighLight();
@@ -188,6 +188,7 @@ int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50])
     } while (1);
 }
 
+
 void Menu_GV()
 {
     char thucdon[so_item_menu_Main][50] = {
@@ -216,6 +217,24 @@ void Menu_GV()
             break;
         }
     }
+}
+
+void Menu_SV(){
+    char thucdon[2][50] = {
+        "     1. THI TRAC NGHIEM     ",
+        "     2. EXIT                "};
+    int chon = 0;
+    while(1){
+    	chon = Up_Down_Menu_Chinh(thucdon);
+    	switch(chon){
+    		case 1:
+    			break;
+    		case 2:
+    			exit(1);
+    		case ESC:
+    			break;
+		}
+	}
 }
 void theme()
 {
