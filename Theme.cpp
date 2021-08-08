@@ -1,3 +1,4 @@
+#include <windows.h>
 //===================================MENU CHINH========================================
 const int so_item_menu_Main = 4;
 //===========TO MAU==========================
@@ -121,4 +122,17 @@ void Draw_Frame(int x, int y, int rong, int dai)
         printf("%c", char(205));
     }
     printf("%c", char(188));
+}
+void Dialog_Notification(string noti,int sleep){
+	Normal_Text();
+	Draw_Frame(75,15,40,2);
+	gotoxy(77,16);
+	cout<<"THONG BAO: "+noti;
+	Sleep(sleep*1000);
+	for(int i=75; i<=75+40 ; i++){
+		for(int j=15; j<=15+2; j++){
+			gotoxy(i,j);
+			cout<" ";
+		}
+	}
 }

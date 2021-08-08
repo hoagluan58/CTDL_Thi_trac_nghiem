@@ -2,6 +2,7 @@
 #define MAXMONHOC 100
 #define MAXSINHVIEN 100
 #include <iostream>
+#include <time.h>
 using namespace std;
 //----------DANH SACH CAU HOI(DS TUYEN TINH)-----------
 typedef struct CauHoi
@@ -258,3 +259,9 @@ typedef struct DSLop
         n = 0;
     }
 } DSLop;
+
+// struct option test
+typedef struct OptionTest{
+	int soCau;
+	int soPhut;
+}opTest;

@@ -2,12 +2,14 @@
 #include "Input.h"
 #include "Case1.cpp"
 #include "Case2.cpp"
+#include "Case3.cpp"
 using namespace std;
 DSLop dsl;
 NodeMH nodeMH; 
 
 //===========LOGIN==============
 void Menu_GV();
+void Menu_SV();
 void DrawLoginForm(int x, int y, int rong, int dai)
 {
     gotoxy(x, y);
@@ -103,7 +105,7 @@ void Login()
 			    else
 			    {
 			        if(dsl.LoginSinhVien(username,password)){
-			        	cout << "\n Dang nhap sinh vien thanh cong";
+			        	Menu_SV();
 			        	break;
 					}else{
 						cout << "\n Tai khoan hoac mat khau chua dung";
@@ -145,7 +147,7 @@ void Draw_Button_Menu_Normal(char td[so_item_menu_Main][50], int cot, int dong, 
     gotoxy(cot, dong + 3 + (chon)*4);
     printf("%s", "                            ");
 }
-int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50])
+int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50],int so_item)
 {
     int cot_menu = 6 + X / 2 - 20;
     int dong_menu = Y / 2 - 10;
@@ -153,7 +155,7 @@ int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50])
     system("cls");
     Draw_Frame_Main(0, 0, X, Y, NAME_PROGRAM);
     int chon = 0;
-    for (int i = 0; i < so_item_menu_Main; i++)
+    for (int i = 0; i < so_item; i++)
     {
         Draw_Button_Menu_Normal(td, cot_menu, dong_menu, i);
     }
@@ -173,7 +175,7 @@ int Up_Down_Menu_Chinh(char td[so_item_menu_Main][50])
             }
             break;
         case DOWN:
-            if (chon + 1 < so_item_menu_Main)
+            if (chon + 1 < so_item)
             {
                 Draw_Button_Menu_Normal(td, cot_menu, dong_menu, chon);
                 chon++;
@@ -199,7 +201,7 @@ void Menu_GV()
     int chon = 0;
     while (1)
     {
-        chon = Up_Down_Menu_Chinh(thucdon);
+        chon = Up_Down_Menu_Chinh(thucdon,4);
         switch (chon)
         {
         case 1:
@@ -225,12 +227,13 @@ void Menu_SV(){
         "     2. EXIT                "};
     int chon = 0;
     while(1){
-    	chon = Up_Down_Menu_Chinh(thucdon);
+    	chon = Up_Down_Menu_Chinh(thucdon,2);
     	switch(chon){
     		case 1:
+    			Case3(nodeMH);
     			break;
     		case 2:
-    			exit(1);
+    			return;
     		case ESC:
     			break;
 		}

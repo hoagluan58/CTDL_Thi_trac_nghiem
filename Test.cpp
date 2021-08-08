@@ -34,7 +34,7 @@
 #include "GiaoDien.h"
 int main()
 {
-	theme();
+//	theme();
+	Menu_SV();
 //	Menu_GV();
-//	Menu_SV();
 }

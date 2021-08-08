@@ -100,4 +100,31 @@ char * Input_Str_Int(char str[], int x, int y, int length) {
     };
     return str;
 }
+int Input_Int(int kt, int x, int y) {
+    int key;
+    int k = kt;
+    Normal_Text();
+    gotoxy(x, y);
+    cout << k;
+    do {
+        key = GetKey();
+        if (key >= 48 && key <= 57) {
+            k = k * 10 + (key - 48);
+            gotoxy(x, y);
+            cout << k;
+        } else if (key == BACKSPACE) {
+            k = k / 10;
+            gotoxy(x, y);
+            cout << "                   ";
+            gotoxy(x, y);
+            cout << k;
+        } else if (key == ENTER || key == TAB || key == UP || key == DOWN || k == ESC) {
+            HighLight_Text();
+            gotoxy(x, y);
+            cout << k;
+            return k;
+        }
+    } while (1);
+
+}
 
