@@ -6,6 +6,7 @@
 using namespace std;
 DSLop dsl;
 NodeMH nodeMH; 
+char masosv[10];
 
 //===========LOGIN==============
 void Menu_GV();
@@ -105,6 +106,7 @@ void Login()
 			    else
 			    {
 			        if(dsl.LoginSinhVien(username,password)){
+			        	strcpy(masosv,username);
 			        	Menu_SV();
 			        	break;
 					}else{
@@ -230,7 +232,7 @@ void Menu_SV(){
     	chon = Up_Down_Menu_Chinh(thucdon,2);
     	switch(chon){
     		case 1:
-    			Case3(nodeMH);
+    			Case3(nodeMH,masosv);
     			break;
     		case 2:
     			return;

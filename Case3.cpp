@@ -1,7 +1,13 @@
 // draw case 3
 opTest optionTest;
 MonHoc monhoc_canthi;
+SV sinhvien;
+DSLop dsl_temp;
 
+void SearchSv(char masosv[]){
+	Read_DS_Lop_File(dsl_temp);
+	sinhvien = dsl_temp.SearchSinhVien(masosv);
+}
 
 void Swap(int* number_1, int* number_2)
 {
@@ -154,6 +160,7 @@ char* Show_1_CauTracNghiem(CauHoi ch,int tt){
 }
 
 void Test(){
+	Diem diem;
 	if(optionTest.soCau > monhoc_canthi.dsch.tong)
 	{
 		Dialog_Notification("So cau hoi khong hop le",2);
@@ -169,11 +176,27 @@ void Test(){
 		cautraloi[rand[i]] = Show_1_CauTracNghiem(monhoc_canthi.dsch.dsch[rand[i]],i);
 	}
 	Draw_CauTracNghiem(0);
+	
+	
+	strcpy(diem.MAMH,monhoc_canthi.MAMH);
+	int socaudung = 0;
 	for(int i=0; i<optionTest.soCau; i++){
-		gotoxy(3,3+i);
-		printf("%d %s %s\n",i+1,cautraloi[rand[i]],monhoc_canthi.dsch.dsch[rand[i]].DA);
+		if(strcmp(cautraloi[rand[i]],monhoc_canthi.dsch.dsch[rand[i]].DA)==0){
+			socaudung++;
+		}
 	}
+	diem.soCau = optionTest.soCau;
+	diem.DIEMTHI = (10/optionTest.soCau)*socaudung;
+	for(int i=0 ;i<optionTest.soCau; i++){
+		ChiTietCauHoi ctch;
+		ctch.id = rand[i];
+		strcpy(ctch.svChon,cautraloi[rand[i]]);
+		diem.CAUHOISV[i]=ctch;
+	}
+	sinhvien.DSDIEM.Insert_Diem_Last(diem);
 	gotoxy(20,20);
+	printf("So cau dung la %d/%d, Diem cua ban thi duoc la %f",socaudung,optionTest.soCau, diem.DIEMTHI);
+	gotoxy(20,21);
 	printf("Nhan ENTER de tro ve");
 	char key;
 	while(1){
@@ -299,9 +322,10 @@ void Show_DSMonHoc_Case3(DSMH dsmh, int start, int end, int pos)
 	Show_1_MonHoc_Case3(dsmh.DSMH[start + pos]->mon, x, y + pos);
 }
 
-void Case3(NodeMH &nodeMH){
+void Case3(NodeMH &nodeMH,char masosv[]){
 	Draw_Frame_DSMH_Case3();
 	Read_DS_MH_File(nodeMH);
+	SearchSv(masosv);
 	DSMH dsmh;
 	Insert_MH_toArray(nodeMH,dsmh);
 	char key;
