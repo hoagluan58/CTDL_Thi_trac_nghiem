@@ -118,7 +118,7 @@ void DeleteAllMonHoc(NodeMH &node){
 typedef struct ChiTietCauHoi
 {
     int id;
-    char svChon;
+    char svChon[2];
 } ChiTietCauHoi;
 
 //----------DANH SACH DIEM(DS LIEN KET DON)-----------
@@ -126,15 +126,49 @@ typedef struct Diem
 {
     char MAMH[16];
     float DIEMTHI;
-    Diem *pNext;
+    int soCau = 0;
     ChiTietCauHoi CAUHOISV[MAXCAUHOI];
 } Diem;
 
+struct NodeDiem{
+    Diem diem;
+    NodeDiem * pNext;
+};
+
 typedef struct DSDiem
 {
-    Diem *pHead = NULL;
+    NodeDiem *pHead = NULL;
     int tong = 0;
+    void Insert_Diem_First(Diem & diem) {
+	    NodeDiem * node = new NodeDiem;
+	    node -> diem = diem;
+	    node -> pNext = this->pHead;
+	    this->pHead = node;
+	}
+	void Insert_Diem_After(NodeDiem * & node,Diem & diem) {
+	
+	    if (node == NULL) {
+	        printf("VI TRI THEM KHONG PHU HOP!");
+	        return;
+	    }
+	
+	    NodeDiem * nodeNew = new NodeDiem;
+	    nodeNew -> diem = diem;
+	    nodeNew -> pNext = node -> pNext;
+	    node -> pNext = nodeNew;
+	}
+	void Insert_Diem_Last(Diem & diem) {
+	    if (this->pHead == NULL) {
+	        Insert_Diem_First(diem);
+	    } else {
+	        NodeDiem * p;
+	        for (p = pHead; p -> pNext != NULL; p = p -> pNext);
+	        Insert_Diem_After(p, diem);
+	    }
+	    tong++;
+	}
 } DSDiem;
+
 
 //----------DANH SACH SINH VIEN(DS LIEN KET DON)------
 typedef struct SinhVien
@@ -205,6 +239,13 @@ typedef struct DSSinhVien
 		}
 		return false;
 	}
+	SV SearchSinhVien(char masosv[]){
+		SV sv;
+		for(NodeSV *p = first; p!=NULL; p= p->next){
+			if(strcmp(p->sv.MSSV,masosv)==0) return p->sv;
+		}
+		return sv;
+	}
 } DSSinhVien;
 
 
@@ -239,11 +280,21 @@ typedef struct DSLop
         }
     }
     bool LoginSinhVien(char username[], char password[]){
-    	for(int i=0; i<this->n; i++){
+    	for(int i=0; i<this->n; i++)
+		{
     		bool check = this->node[i]->DSSV->LoginSinhVien(username,password);
     		if(check) return true;
 		}
 		return false;
+	}
+	SV SearchSinhVien(char masosv[]){
+		SV sv;
+		for(int i=0; i<this->n; i++)
+		{
+    		sv = this->node[i]->DSSV->SearchSinhVien(masosv);
+    		if(strcmp(sv.MSSV,masosv)==0) return sv;
+		}
+		return sv;
 	}
     void DeleteAllNode()
     {
