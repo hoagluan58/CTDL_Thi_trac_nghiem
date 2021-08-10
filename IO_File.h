@@ -79,7 +79,29 @@ void Read_DS_Lop_File(DSLop &dsl)
         	getline(readFile, data, ',');
         	sv.PHAI = Convert_String_to_Int(data);
         	getline(readFile, data);
+<<<<<<< HEAD
         	strcpy(sv.PASS, data.c_str());
+=======
+        	int demSocau = Convert_String_to_Int(data);
+        	Diem diem;
+        	for(int i=0;i<demSocau;i++){
+        		getline(readFile, data, ',');
+        		strcpy(diem.MAMH, data.c_str());
+        		getline(readFile, data, ',');
+        		diem.DIEMTHI = Convert_String_to_Int(data);
+        		getline(readFile, data);
+        		diem.soCau = Convert_String_to_Int(data);
+        		for(int i=0; i<diem.soCau;i++){
+        			ChiTietCauHoi ctch;
+        			getline(readFile, data, ',');
+        			ctch.id = Convert_String_to_Int(data);
+        			getline(readFile, data);
+        			strcpy(ctch.svChon, data.c_str());
+        			cout<<"Sv: "<<ctch.svChon<<" ";
+				}
+				sv.DSDIEM.Insert_Diem_Last(diem);
+			}
+>>>>>>> parent of 1dbbd54 (Fix: lỗi k chạy được)
         	if (strcmp(sv.MSSV, "") != 0) lop.DSSV->Add_SV_Last(CreateNodeSV(sv));
 		}
         if (strcmp(lop.MALOP, "") != 0)
