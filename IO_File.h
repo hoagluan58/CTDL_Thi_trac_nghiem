@@ -31,13 +31,20 @@ void Write_DS_Lop_File(DSLop dsl, fstream &writeFile)
     }
     else
     {
-        //        writeFile << dsl.n<< endl;
         for (int i = 0; i < dsl.n; i++)
         {
             writeFile << dsl.node[i]->MALOP << "," << dsl.node[i]->TENLOP << "," << dsl.node[i]->DSSV->tong << endl;
             DSSinhVien *dssv = dsl.node[i]->DSSV;
-            for(NodeSV *p=dssv->first; p != NULL; p= p->next){
-            	writeFile<< p->sv.MSSV << "," << p->sv.HO << "," << p->sv.TEN << "," << p->sv.PHAI << "," << p->sv.PASS << endl;
+            if(dsl.node[i]->DSSV->tong>0){
+            	for(NodeSV *p=dssv->first; p != NULL; p= p->next){
+	            	writeFile<< p->sv.MSSV << "," << p->sv.HO << "," << p->sv.TEN << "," << p->sv.PHAI << "," << p->sv.PASS << "," <<p->sv.DSDIEM.tong<< endl;
+	            	for( NodeDiem *nodeDiem = p->sv.DSDIEM.pHead; nodeDiem != NULL; nodeDiem=nodeDiem->pNext){
+	            		writeFile<<nodeDiem->diem.MAMH<< "," <<nodeDiem->diem.DIEMTHI<< "," <<nodeDiem->diem.soCau<<endl;
+	            		for(int i=0;i<nodeDiem->diem.soCau;i++){
+	            			writeFile<<nodeDiem->diem.CAUHOISV[i].id<<","<<nodeDiem->diem.CAUHOISV[i].svChon<<endl;
+						}
+					}
+				}
 			}
         }
     }
@@ -78,8 +85,28 @@ void Read_DS_Lop_File(DSLop &dsl)
         	strcpy(sv.TEN, data.c_str());
         	getline(readFile, data, ',');
         	sv.PHAI = Convert_String_to_Int(data);
-        	getline(readFile, data);
+        	getline(readFile, data, ',');
         	strcpy(sv.PASS, data.c_str());
+        	getline(readFile, data);
+        	int demSocau = Convert_String_to_Int(data);
+        	Diem diem;
+        	for(int i=0;i<demSocau;i++){
+        		getline(readFile, data, ',');
+        		strcpy(diem.MAMH, data.c_str());
+        		getline(readFile, data, ',');
+        		diem.DIEMTHI = Convert_String_to_Int(data);
+        		getline(readFile, data);
+        		diem.soCau = Convert_String_to_Int(data);
+        		for(int i=0; i<diem.soCau;i++){
+        			ChiTietCauHoi ctch;
+        			getline(readFile, data, ',');
+        			ctch.id = Convert_String_to_Int(data);
+        			getline(readFile, data);
+        			strcpy(ctch.svChon, data.c_str());
+        			cout<<"Sv: "<<ctch.svChon<<" ";
+				}
+				sv.DSDIEM.Insert_Diem_Last(diem);
+			}
         	if (strcmp(sv.MSSV, "") != 0) lop.DSSV->Add_SV_Last(CreateNodeSV(sv));
 		}
         if (strcmp(lop.MALOP, "") != 0)

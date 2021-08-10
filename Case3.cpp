@@ -166,6 +166,10 @@ void Test(){
 		Dialog_Notification("So cau hoi khong hop le",2);
 		return;
 	}
+	if(sinhvien.DSDIEM.MonDaThi(monhoc_canthi.MAMH)){
+		Dialog_Notification("Sinh vien da thi mon nay",2);
+		return;
+	}
 	int rand[optionTest.soCau+1];
 	char *cautraloi[optionTest.soCau+1];
 	for(int i=0;i<optionTest.soCau;i++){
@@ -194,6 +198,9 @@ void Test(){
 		diem.CAUHOISV[i]=ctch;
 	}
 	sinhvien.DSDIEM.Insert_Diem_Last(diem);
+	dsl_temp.UpdateSinhVien(sinhvien);
+	Save_DS_Lop_File(dsl_temp);
+	Read_DS_Lop_File(dsl_temp);
 	gotoxy(20,20);
 	printf("So cau dung la %d/%d, Diem cua ban thi duoc la %f",socaudung,optionTest.soCau, diem.DIEMTHI);
 	gotoxy(20,21);
@@ -293,7 +300,7 @@ void Show_1_MonHoc_Case3(MonHoc mh, int x, int y)
 {
 	gotoxy(x, y);
 	printf("%s", mh.MAMH);
-	gotoxy(x + 25, y);
+	gotoxy(x + 27, y);
 	printf("%s", mh.TENMH);
 }
 void Clear_Data_DSMonHoc_Case3()
@@ -301,8 +308,8 @@ void Clear_Data_DSMonHoc_Case3()
 	int x = 5, y = 6;
 	Normal_Text();
 	MonHoc mh;
-	strcpy(mh.MAMH, "                     ");
-	strcpy(mh.TENMH, "                      ");
+	strcpy(mh.MAMH, "             ");
+	strcpy(mh.TENMH, "                        ");
 	for (int i = 0; i < MAX_LIST; i++)
 	{
 		Show_1_MonHoc_Case3(mh, x, y + i);
