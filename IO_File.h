@@ -20,7 +20,6 @@ char *Convert_String_to_Char(string s, char str[])
     {
         str1[i] = s[i];
     }
-    printf("Toi day!! %s", str1);
     return str1;
 }
 void Write_DS_Lop_File(DSLop dsl, fstream &writeFile)
@@ -103,7 +102,6 @@ void Read_DS_Lop_File(DSLop &dsl)
         			ctch.id = Convert_String_to_Int(data);
         			getline(readFile, data);
         			strcpy(ctch.svChon, data.c_str());
-        			cout<<"Sv: "<<ctch.svChon<<" ";
 				}
 				sv.DSDIEM.Insert_Diem_Last(diem);
 			}
