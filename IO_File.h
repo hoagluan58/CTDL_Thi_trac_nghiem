@@ -81,6 +81,7 @@ void Read_DS_Lop_File(DSLop &dsl)
         	getline(readFile, data);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         	strcpy(sv.PASS, data.c_str());
 =======
         	int demSocau = Convert_String_to_Int(data);
@@ -103,6 +104,9 @@ void Read_DS_Lop_File(DSLop &dsl)
 				sv.DSDIEM.Insert_Diem_Last(diem);
 			}
 >>>>>>> parent of 1dbbd54 (Fix: lỗi k chạy được)
+=======
+        	strcpy(sv.PASS, data.c_str());
+>>>>>>> parent of 114dd35 (ADD: thêm thi trắc nghiệm vào file và fix bug)
 =======
         	strcpy(sv.PASS, data.c_str());
 >>>>>>> parent of 114dd35 (ADD: thêm thi trắc nghiệm vào file và fix bug)
