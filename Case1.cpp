@@ -94,8 +94,6 @@ void Add_Lop(DSLop &dsl)
 			}
 			break;
 		case CTRL_S:
-			lop.DSSV = new DSSinhVien;
-			lop.DSSV->tong = 0;
 			dsl.Add_Lop(lop);
 			Save_DS_Lop_File(dsl);
 			Read_DS_Lop_File(dsl);
@@ -185,8 +183,6 @@ void Draw_Frame_DSSV_Input()
 	printf("%s", "TEN");
 	gotoxy(77, 10);
 	printf("%s", "PHAI");
-	gotoxy(98, 10);
-	printf("%s", "(0: NU, 1: NAM)");
 	gotoxy(77, 12);
 	printf("%s", "PASSWORD");
 }
@@ -282,8 +278,7 @@ void Add_SinhVien(DSSinhVien &dssv)
 		}
 		else if (wherey() == 10)
 		{
-			cout<< sv.PHAI;
-			sv.PHAI=Input_0_1(sv.PHAI,90,4 + chon * 2);
+			
 		}
 		else if (wherey() == 12)
 		{
