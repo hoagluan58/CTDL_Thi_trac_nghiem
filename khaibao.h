@@ -23,6 +23,9 @@ typedef struct DSCauHoi
     	this->dsch[this->tong]=ch;
     	this->tong ++;
 	}
+	void Init(){
+		tong = 0;
+	}
 } DSCauHoi;
 
 //---------DANH SACH MON HOC(CAY NHI PHAN TIM KIEM)------------
@@ -139,6 +142,12 @@ typedef struct DSDiem
 {
     NodeDiem *pHead = NULL;
     int tong = 0;
+    bool MonDaThi(char mamh[]){
+    	for(NodeDiem *p = pHead; p!=NULL; p = p->pNext){
+    		if(strcmp(p->diem.MAMH,mamh)==0) return true;
+		}
+		return false;
+	}
     void Insert_Diem_First(Diem & diem) {
 	    NodeDiem * node = new NodeDiem;
 	    node -> diem = diem;
@@ -246,6 +255,13 @@ typedef struct DSSinhVien
 		}
 		return sv;
 	}
+	void UpdateSinhVien(SV sv){
+		for(NodeSV *p = first; p!=NULL; p= p->next){
+			if(strcmp(p->sv.MSSV,sv.MSSV)==0) {
+				p->sv = sv;
+			}
+		}
+	}
 } DSSinhVien;
 
 
@@ -256,7 +272,6 @@ typedef struct Lop
     char MALOP[20];
     char TENLOP[40];
     DSSinhVien *DSSV;
-    int soluong = 0;
 } Lop;
 
 typedef struct DSLop
@@ -295,6 +310,12 @@ typedef struct DSLop
     		if(strcmp(sv.MSSV,masosv)==0) return sv;
 		}
 		return sv;
+	}
+	void UpdateSinhVien(SV sv){
+		for(int i=0; i<this->n; i++)
+		{
+    		this->node[i]->DSSV->UpdateSinhVien(sv);
+		}
 	}
     void DeleteAllNode()
     {

@@ -70,6 +70,7 @@ void Add_MonHoc(NodeMH &nodeMH)
 	Draw_Frame_DSMH_Input();
 	int chon = 0;
 	MonHoc mh;
+	mh.dsch.Init();
 	strcpy(mh.MAMH,"");
 	strcpy(mh.TENMH,"");
 	do

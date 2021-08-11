@@ -43,6 +43,13 @@ void DrawLoginForm(int x, int y, int rong, int dai)
     gotoxy(40, 16);
     cout << "Mat khau : ";
 }
+void Notice(char note[]){
+	gotoxy(35,22);
+	printf("NOTE: %s",note);
+	Sleep(2000);
+	gotoxy(35,22);
+	printf("                                         ");
+}
 void Login()
 {
     char username[15] = "", password[20] = "";
@@ -68,7 +75,7 @@ void Login()
 			cout << password;
 			char str[sizeof(password)] = "";
 			strcpy(str, password);
-			strcpy(password, Input_Str_Int(str, 52, 14 + chon * 2, sizeof(password) - 1));
+			strcpy(password, Input_Password_Str_Int(str, 52, 14 + chon * 2, sizeof(password) - 1));
 		}
 		else if (wherey() == 18)
 		{
@@ -100,17 +107,27 @@ void Login()
 			if(wherey()==18){
 				if (!strcmp(username, "GV") && !strcmp(password, "GV"))
 			    {
-			        cout << "\n Dang nhap thanh cong";
+			    	Notice("Dang nhap thanh cong");
 			        Menu_GV();
+			        ColorAll();
+    				Draw_Frame_Main(0, 0, X, Y, NAME_PROGRAM);
+    				DrawLoginForm(32, 10, 50, 10);
+    					strcpy(username,"");
+    					strcpy(password,"");
 			    }
 			    else
 			    {
 			        if(dsl.LoginSinhVien(username,password)){
 			        	strcpy(masosv,username);
 			        	Menu_SV();
+			        	ColorAll();
+    					Draw_Frame_Main(0, 0, X, Y, NAME_PROGRAM);
+    					DrawLoginForm(32, 10, 50, 10);
+    					strcpy(username,"");
+    					strcpy(password,"");
 			        	break;
 					}else{
-						cout << "\n Tai khoan hoac mat khau chua dung";
+						Notice("Tai khoan hoac mat khau chua dung");
 						chon = 0;
 					}
 			    }    
@@ -203,6 +220,7 @@ void Menu_GV()
     int chon = 0;
     while (1)
     {
+    	
         chon = Up_Down_Menu_Chinh(thucdon,4);
         switch (chon)
         {
@@ -216,7 +234,7 @@ void Menu_GV()
             break;
         case 4:
             //system("exit");
-            exit(1);
+            return;
         case ESC:
             break;
         }
