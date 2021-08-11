@@ -214,6 +214,7 @@ void Clear_Data_DSCauHoi()
 
 void Show_DSCauHoi(DSCauHoi dsch, int start, int end, int pos)
 {
+	if(dsch.tong==0) return;
 	Clear_Data_DSCauHoi();
 	int x = 5, y = 6;
 	Normal_Text();
@@ -417,8 +418,18 @@ void Case2(NodeMH &nodeMH){
 			break;
 		case DEL:
 			Remove_MH(nodeMH,dsmh.DSMH[start+pos]->mon.MAMH);
+			dsmh.tong=0;
 			Save_Tree_File(nodeMH);
 			Read_DS_MH_File(nodeMH);
+			Insert_MH_toArray(nodeMH,dsmh);
+			Draw_Frame_DSMH();
+			Draw_Frame_DSMH_Input();
+			if (dsmh.tong > MAX_LIST)
+			{
+				end = MAX_LIST;
+			}
+			else
+				end = dsmh.tong;
 			break;
 		case ENTER:
 			GiaoDien_QuanLiCauHoi(dsmh.DSMH[start+pos]->mon.dsch);

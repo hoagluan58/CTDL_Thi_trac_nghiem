@@ -210,7 +210,6 @@ void Show_1_SV(SV *sv, int x, int y){
 	gotoxy(90, 8);
 	printf("%s", sv-> TEN);
 	gotoxy(90, 10);
-	printf("     ");
 	if(sv->PHAI==0) {
 		printf("NU");
 	}else{
@@ -229,6 +228,8 @@ void Clear_Data_DSSV(int x,int y)
 	strcpy(sv.TEN, "             ");
 	strcpy(sv.PASS, "             ");
 	Show_1_SV(&sv,x,y);
+	gotoxy(90, 10);
+	printf("     ");
 }
 void Show_DSSV(NodeSV *arrSV[], int start, int end, int pos){
 	int x = 5, y = 6;
