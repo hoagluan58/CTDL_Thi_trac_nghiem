@@ -93,15 +93,25 @@ void Add_Lop(DSLop &dsl)
 				chon++;
 			}
 			break;
-		case CTRL_S:
-			lop.DSSV = new DSSinhVien;
-			lop.DSSV->tong = 0;
-			dsl.Add_Lop(lop);
-			Save_DS_Lop_File(dsl);
-			Read_DS_Lop_File(dsl);
-			return;
 		case ESC:
 			return;
+		case CTRL_S:
+			bool check = true;
+			for(int i=0; i<dsl.n;i++){
+				if(strcmp(dsl.node[i]->MALOP,lop.MALOP)==0) check = false;
+			}
+			if(check){
+				lop.DSSV = new DSSinhVien;
+				lop.DSSV->tong = 0;
+				dsl.Add_Lop(lop);
+				Save_DS_Lop_File(dsl);
+				Read_DS_Lop_File(dsl);
+				return;
+			}else{
+				Dialog_Notification("Ma lop bi trung",2);
+			}
+			break;
+		
 		}
 
 	} while (1);
@@ -320,11 +330,20 @@ void Add_SinhVien(DSSinhVien &dssv)
 				chon++;
 			}
 			break;
-		case CTRL_S:
-			dssv.Add_SV_Last(CreateNodeSV(sv));
-			return;
 		case ESC:
 			return;
+		case CTRL_S:
+			bool check = true;
+			for(int i=0 ;i<dssv.tong; i++){
+				if(strcmp(dssv.ArrSinhVien[i]->sv.MSSV,sv.MSSV)==0) check = false;
+			}
+			if(check){
+				dssv.Add_SV_Last(CreateNodeSV(sv));
+				return;
+			}else{
+				Dialog_Notification("Ma so sv da bi trung",2);
+			}
+		
 		}
 
 	} while (1);

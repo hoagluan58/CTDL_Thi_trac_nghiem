@@ -132,7 +132,7 @@ void Dialog_Notification(string noti,int sleep){
 	for(int i=75; i<=75+40 ; i++){
 		for(int j=15; j<=15+2; j++){
 			gotoxy(i,j);
-			cout<" ";
+			cout<"  ";
 		}
 	}
 }

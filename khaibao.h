@@ -72,6 +72,19 @@ void Insert_MH_toArray(NodeMH &p, DSMH &dsmh){
 	}
 }
 
+bool isExist_MH_(NodeMH &p, MonHoc mh){
+	if(p!=NULL){
+		isExist_MH_(p -> pLeft, mh);
+    	if(p->mon.MAMH==mh.MAMH) return false;
+        isExist_MH_(p -> pRight, mh);
+	}
+}
+bool isExist_MH(NodeMH &p, MonHoc mh){
+	if(isExist_MH_(p,mh)==false) return false;
+	return true;
+}
+
+
 void Remove_MH_case3(NodeMH & p, NodeMH &rp) { // tim nut thay the nut can phai xoa (nut cuc trai cua nhanh phai nut can xoa)
     if (p -> pLeft != NULL) { // neu chua phai la cuc trai thi duyet tiep
         Remove_MH_case3(p -> pLeft, rp);

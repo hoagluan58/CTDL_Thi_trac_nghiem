@@ -1,4 +1,6 @@
 //========================CASE 2===================
+
+DSMH dsmh;
 void Draw_Frame_DSMH(){
 	system("cls");
 	Draw_Frame_Main(0, 0, X, Y, "QUAN LI MON HOC - THI TRAC NGHIEM");
@@ -117,11 +119,24 @@ void Add_MonHoc(NodeMH &nodeMH)
 				chon++;
 			}
 			break;
-		case CTRL_S:
-			Insert_MH(nodeMH,mh);
-			return;
 		case ESC:
 			return;
+		case CTRL_S:
+			bool check = true;
+			for(int i=0; i<dsmh.tong;i++){
+				if(dsmh.DSMH[i]->mon.MAMH==mh.MAMH){
+					check = false;
+				}
+			}
+			if(check==true){
+				Insert_MH(nodeMH,mh);
+				
+			} else {
+				Dialog_Notification("Ma mon hoc bi trung",2);
+				Draw_Frame_DSMH_Input();
+			}
+			return;
+		
 		}
 
 	} while (1);
@@ -361,6 +376,12 @@ void GiaoDien_QuanLiCauHoi(DSCauHoi &dsch){
 			break;
 		case F2:
 			Add_CauHoi(dsch);
+			if (dsch.tong > MAX_LIST)
+			{
+				end = MAX_LIST;
+			}
+			else
+				end = dsch.tong;
 			break;
 		case ENTER:
 			break;
@@ -374,7 +395,7 @@ void Case2(NodeMH &nodeMH){
 	Draw_Frame_DSMH();
 	Draw_Frame_DSMH_Input();
 	Read_DS_MH_File(nodeMH);
-	DSMH dsmh;
+	dsmh.tong=0;
 	Insert_MH_toArray(nodeMH,dsmh);
 	char key;
 	int pos = 0;
@@ -414,7 +435,18 @@ void Case2(NodeMH &nodeMH){
 			break;
 		case F2:
 			Add_MonHoc(nodeMH);
+			dsmh.tong=0;
 			Save_Tree_File(nodeMH);
+			Read_DS_MH_File(nodeMH);
+			Insert_MH_toArray(nodeMH,dsmh);
+			Draw_Frame_DSMH();
+			Draw_Frame_DSMH_Input();
+			if (dsmh.tong > MAX_LIST)
+			{
+				end = MAX_LIST;
+			}
+			else
+				end = dsmh.tong;
 			break;
 		case DEL:
 			Remove_MH(nodeMH,dsmh.DSMH[start+pos]->mon.MAMH);
