@@ -34,6 +34,7 @@
 #include "GiaoDien.h"
 int main()
 {
+//	DSMonHoc_Case1();
 	theme();
 //	Menu_SV();
 //	Menu_GV();

@@ -1,19 +1,5 @@
 //========================CASE 1===================
 
-
-void Clear_Data_Input()
-{
-	gotoxy(90, 4);
-	printf("%s", "                     ");
-	gotoxy(90, 6);
-	printf("%s", "                     ");
-	gotoxy(90, 8);
-	printf("%s", "                     ");
-	gotoxy(90, 10);
-	printf("%s", "                     ");
-	gotoxy(90, 12);
-	printf("%s", "                     ");
-}
 void Draw_Frame_DSLop()
 {
 	system("cls");
@@ -349,6 +335,106 @@ void Add_SinhVien(DSSinhVien &dssv)
 	} while (1);
 }
 
+void Show_1_MonHoc_Case1(MonHoc mh,char trangthai[], int x, int y)
+{
+	gotoxy(x, y);
+	printf("%s", mh.MAMH);
+	gotoxy(x + 25, y);
+	printf("%s", mh.TENMH);
+	Clear_Data_Input();
+	gotoxy(90, 4);
+	printf("%s", mh.MAMH);
+	gotoxy(90, 6);
+	printf("%s", mh.TENMH);
+	gotoxy(90, 8);
+	printf("%s", trangthai);
+}
+void Clear_Data_DSMonHoc_Case1()
+{
+	int x = 5, y = 6;
+	Normal_Text();
+	MonHoc mh;
+	strcpy(mh.MAMH, "                     ");
+	strcpy(mh.TENMH, "                      ");
+	for (int i = 0; i < MAX_LIST; i++)
+	{
+		Show_1_MonHoc_Case1(mh,"                    ", x, y + i);
+	}
+}
+
+void Show_DSMonHoc_Case1(DSMH dsmh, int start, int end, int pos, SV sv)
+{
+	Clear_Data_DSLop();
+	int x = 5, y = 6;
+	Normal_Text();
+	char trangthai[100];
+	string tt = "CHUA THI";
+	strcpy(trangthai,"CHUA THI");
+	for (int i = start; i < end; i++)
+	{
+		Show_1_MonHoc_Case1(dsmh.DSMH[i]->mon,trangthai, x, y + i - start);
+	}
+	HighLight_Text();
+	for(NodeDiem *p=sv.DSDIEM.pHead; p!=NULL; p=p->pNext){
+		if(strcmp(dsmh.DSMH[start + pos]->mon.MAMH,p->diem.MAMH)==0){
+			char c[50]; //size of the number
+    		sprintf(c, "%g", p->diem.DIEMTHI);
+			strcpy(trangthai,"DA THI (");
+			strcat(c," DIEM)");
+			strcat(trangthai,c);
+		}
+	}
+	Show_1_MonHoc_Case1(dsmh.DSMH[start + pos]->mon,trangthai, x, y + pos);
+}
+void DSMonHoc_Case1(SV sv){
+	NodeMH nodeMH = NULL;
+	DSMH dsmh;
+	Draw_Frame_DSMH();
+	Draw_Frame_DSMH_Input_Case1();
+	Read_DS_MH_File(nodeMH);
+	dsmh.tong=0;
+	Insert_MH_toArray(nodeMH,dsmh);
+	char key;
+	int pos = 0;
+	int start = 0, end = 0;
+	if (dsmh.tong > MAX_LIST)
+	{
+		end = MAX_LIST;
+	}
+	else
+		end = dsmh.tong;
+	while(true){
+		Show_DSMonHoc_Case1(dsmh, start, end, pos, sv);
+		key = GetKey();
+		switch (key)
+		{
+		case UP:
+			if (pos > 0)
+			{
+				pos--;
+			}
+			if (start > 0 && pos == 0)
+			{
+				start--;
+				end--;
+			}
+			break;
+		case DOWN:
+			if (pos < MAX_LIST - 1 && pos < dsmh.tong - 1)
+			{
+				pos++;
+			}
+			if (end < dsmh.tong && pos == MAX_LIST - 1)
+			{
+				start++;
+				end++;
+			}
+			break;
+		case ESC:
+			return;
+		}
+	}
+}
 void Giaodien_Dssv(DSSinhVien &dssv, DSLop &dsl)
 {
 	Draw_Frame_DSSV();
@@ -407,6 +493,11 @@ void Giaodien_Dssv(DSSinhVien &dssv, DSLop &dsl)
 					pos = dssv.tong - 1;
 				}
 				start = end - pos - 1;
+				break;
+			case ENTER:
+				DSMonHoc_Case1(dssv.ArrSinhVien[start+pos]->sv);
+				Draw_Frame_DSSV();
+				Draw_Frame_DSSV_Input();
 				break;
 			case ESC:
 				return;

@@ -136,3 +136,57 @@ void Dialog_Notification(string noti,int sleep){
 		}
 	}
 }
+void Clear_Data_Input()
+{
+	gotoxy(90, 4);
+	printf("%s", "                     ");
+	gotoxy(90, 6);
+	printf("%s", "                     ");
+	gotoxy(90, 8);
+	printf("%s", "                     ");
+	gotoxy(90, 10);
+	printf("%s", "                     ");
+	gotoxy(90, 12);
+	printf("%s", "                     ");
+}
+void Draw_Frame_DSMH(){
+	system("cls");
+	Draw_Frame_Main(0, 0, X, Y, "QUAN LI MON HOC - THI TRAC NGHIEM");
+	Draw_Frame(3, 3, 70, 22);
+	Draw_H(3, 5, 70);
+	Draw_I(28, 3, 22);
+	gotoxy(28, 5);
+	printf("%c", char(206));
+	gotoxy(11, 4);
+	printf("%s", "MA MON HOC");
+	gotoxy(45, 4);
+	printf("%s", "TEN MON HOC");
+}
+
+void Draw_Frame_DSMH_Input(){
+	Draw_Frame(75, 3, 40, 3);
+	Draw_H(75, 5, 40);
+	Draw_I(88, 3, 3);
+	Clear_Data_Input();
+	gotoxy(88, 5);
+	printf("%c", char(206));
+	gotoxy(77, 4);
+	printf("%s", "MA MON");
+	gotoxy(77, 6);
+	printf("%s", "TEN MON");
+}
+void Draw_Frame_DSMH_Input_Case1(){
+	Draw_Frame(75, 3, 40, 5);
+	Draw_H(75, 5, 40);
+	Draw_H(75, 7, 40);
+	Draw_I(88, 3, 5);
+	Clear_Data_Input();
+	gotoxy(88, 5);
+	printf("%c", char(206));
+	gotoxy(77, 4);
+	printf("%s", "MA MON");
+	gotoxy(77, 6);
+	printf("%s", "TEN MON");
+	gotoxy(77, 8);
+	printf("%s", "TRANG THAI");
+}
