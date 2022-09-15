@@ -4,9 +4,13 @@
 #include <iostream>
 #include <time.h>
 using namespace std;
-//----------DANH SACH CAU HOI(DS TUYEN TINH)-----------
+
+
+//---------DANH SACH CAU HOI(CAY NHI PHAN TIM KIEM)------------
 typedef struct CauHoi
 {
+	char Id[4];
+	char MAMH[16];
     char NOIDUNG[100];
     char A[100];
     char B[100];
@@ -15,120 +19,120 @@ typedef struct CauHoi
     char DA[2];
 } CauHoi;
 
-typedef struct DSCauHoi
+struct NodeCauHoi
 {
-    CauHoi dsch[MAXCAUHOI];
-    int tong = 0;
-    void InsertCauHoi(CauHoi ch){
-    	this->dsch[this->tong]=ch;
-    	this->tong ++;
-	}
-	void Init(){
-		tong = 0;
-	}
+    CauHoi cauhoi;
+    struct NodeCauHoi *pLeft;
+    struct NodeCauHoi *pRight;
+};
+typedef struct NodeCauHoi *NodeCH;
+
+typedef struct 
+{
+	CauHoi DSCH[MAXCAUHOI];
+	int tong = 0;
 } DSCauHoi;
 
-//---------DANH SACH MON HOC(CAY NHI PHAN TIM KIEM)------------
-typedef struct MonHoc
-{
-    char MAMH[16];
-    char TENMH[25];
-    DSCauHoi dsch;
-} MonHoc;
-
-struct NodeMonHoc
-{
-    MonHoc mon;
-    struct NodeMonHoc *pLeft;
-    struct NodeMonHoc *pRight;
-};
-typedef struct NodeMonHoc *NodeMH;
-
-typedef struct DSMonHoc
-{
-	NodeMonHoc *DSMH[200];
-	int tong = 0;
-} DSMH;
-
-void Insert_MH(NodeMH &p, MonHoc mh) { //them 1 mh vao cay nhi phan
+void Insert_CH(NodeCH &p, CauHoi CH) { //them 1 CH vao cay nhi phan
     if (p == NULL) {
-        p = new NodeMonHoc;
-        p -> mon = mh;
+        p = new NodeCauHoi;
+        p -> cauhoi = CH;
         p -> pLeft = NULL;
         p -> pRight = NULL;
     } else {
-        if (strcmp(mh.MAMH,p -> mon.MAMH) < 0) Insert_MH(p -> pLeft, mh);
-        else if (strcmp(mh.MAMH,p -> mon.MAMH) > 0) Insert_MH(p -> pRight, mh);
+        if (CH.Id<p -> cauhoi.Id) Insert_CH(p -> pLeft, CH);
+        else if (CH.Id>p -> cauhoi.Id) Insert_CH(p -> pRight, CH);
     }
 }
 
-void Insert_MH_toArray(NodeMH &p, DSMH &dsmh){
+void Insert_CH_toArray(NodeCH &p, DSCauHoi &dsCH){
 	if(p!=NULL){
-		Insert_MH_toArray(p -> pLeft, dsmh);
-    	dsmh.DSMH[dsmh.tong] = new NodeMonHoc;
-    	dsmh.DSMH[dsmh.tong] = p;
-    	dsmh.tong++;
-        Insert_MH_toArray(p -> pRight, dsmh);
+		Insert_CH_toArray(p -> pLeft, dsCH);
+    	dsCH.DSCH[dsCH.tong] = p -> cauhoi;
+    	dsCH.tong++;
+        Insert_CH_toArray(p -> pRight, dsCH);
 	}
 }
 
-bool isExist_MH_(NodeMH &p, MonHoc mh){
+bool isExist_CH_(NodeCH &p, CauHoi CH){
 	if(p!=NULL){
-		isExist_MH_(p -> pLeft, mh);
-    	if(p->mon.MAMH==mh.MAMH) return false;
-        isExist_MH_(p -> pRight, mh);
+		isExist_CH_(p -> pLeft, CH);
+    	if(p->cauhoi.Id==CH.Id) return false;
+        isExist_CH_(p -> pRight, CH);
 	}
 }
-bool isExist_MH(NodeMH &p, MonHoc mh){
-	if(isExist_MH_(p,mh)==false) return false;
+bool isExist_CH(NodeCH &p, CauHoi CH){
+	if(isExist_CH_(p,CH)==false) return false;
 	return true;
 }
 
 
-void Remove_MH_case3(NodeMH & p, NodeMH &rp) { // tim nut thay the nut can phai xoa (nut cuc trai cua nhanh phai nut can xoa)
+void Remove_CH_case3(NodeCH & p, NodeCH &rp) { // tim nut thay the nut can phai xoa (nut cuc trai cua nhanh phai nut can xoa)
     if (p -> pLeft != NULL) { // neu chua phai la cuc trai thi duyet tiep
-        Remove_MH_case3(p -> pLeft, rp);
+        Remove_CH_case3(p -> pLeft, rp);
     } else {
-        rp -> mon = p -> mon; //gan nut can xoa bang nut thay the (that ra la xoa nut thay the chu k phai la xoa p)
+        rp -> cauhoi = p -> cauhoi; //gan nut can xoa bang nut thay the (that ra la xoa nut thay the chu k phai la xoa p)
         rp = p; // gan lai dia chi con tro
         p = p -> pRight; // neu nut thay the co nhanh phai thi gan lai nhanh phai vao nut thay the
     }
 }
-void Remove_MH(NodeMH & p, char MAMH[]) {
+void Remove_CH(NodeCH & p, char Id[4]) {
     if (p == NULL) printf("\n\t\tKhong tim thay mon hoc can xoa!\n");
     else {
-        if (strcmp(MAMH,p -> mon.MAMH) < 0) Remove_MH(p -> pLeft, MAMH);
-        else if (strcmp(MAMH,p -> mon.MAMH) > 0) Remove_MH(p -> pRight, MAMH);
+        if (Id<p -> cauhoi.Id) Remove_CH(p -> pLeft, Id);
+        else if (Id>p -> cauhoi.Id) Remove_CH(p -> pRight, Id);
         else { // da tim thay ma mon hoc can xoa
-            NodeMH rp = p;
+            NodeCH rp = p;
             if (rp -> pLeft == NULL) { // p la nut la hoac nut co 1 cay con ben phai
                 p = rp -> pRight;
             } else if (rp -> pRight == NULL) { // p la nut la hoac nut co 1 cay con ben trai
                 p = rp -> pLeft;
             } else { // p co 2 cay con ben trai va phai
-                Remove_MH_case3(rp -> pRight, p);
+                Remove_CH_case3(rp -> pRight, p);
             }
             delete rp;
         }
     }
 }
 
-void Traverse_LNR(NodeMH & p) {
+void Traverse_LNR(NodeCH & p) {
     if (p != NULL) {
         Traverse_LNR(p -> pLeft);
-        printf("\t%s\t%s\t\n", p -> mon.MAMH, p -> mon.TENMH);
+        printf("\t%s\t%s\t\n", p -> cauhoi.Id, p -> cauhoi.Id);
         Traverse_LNR(p -> pRight);
     }
 }
 
-void DeleteAllMonHoc(NodeMH &node){
+void DeleteAllCauHoi(NodeCH &node){
 	if(node != NULL){
-		DeleteAllMonHoc(node->pLeft);
-		DeleteAllMonHoc(node->pRight);
+		DeleteAllCauHoi(node->pLeft);
+		DeleteAllCauHoi(node->pRight);
 		delete node;
 //		node = NULL;
 	}
 }
+
+//----------DANH SACH MON HOC(DS TUYEN TINH)-----------
+typedef struct MonHoc
+{
+    char MAMH[16];
+    char TENMH[25];
+    NodeCH pDSCH;
+	DSCauHoi dsch;
+	void Convert_Tree_Array() {
+		Insert_CH_toArray(pDSCH,dsch);
+	}
+} MonHoc;
+
+typedef struct 
+{
+    int tong = 0;
+    MonHoc dsmh[MAXMONHOC];
+	
+	void Init(){
+		tong = 0;
+	}
+} DSMonHoc;
 
 //----------DANH SACH CAU HOI DA THUC HIEN------------
 typedef struct ChiTietCauHoi
@@ -155,9 +159,9 @@ typedef struct DSDiem
 {
     NodeDiem *pHead = NULL;
     int tong = 0;
-    bool MonDaThi(char mamh[]){
+    bool MonDaThi(char MAMH[]){
     	for(NodeDiem *p = pHead; p!=NULL; p = p->pNext){
-    		if(strcmp(p->diem.MAMH,mamh)==0) return true;
+    		if(strcmp(p->diem.MAMH,MAMH)==0) return true;
 		}
 		return false;
 	}

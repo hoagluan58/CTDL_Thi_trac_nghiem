@@ -362,7 +362,7 @@ void Clear_Data_DSMonHoc_Case1()
 	}
 }
 
-void Show_DSMonHoc_Case1(DSMH dsmh, int start, int end, int pos, SV sv)
+void Show_DSMonHoc_Case1(DSMonHoc dsmh, int start, int end, int pos, SV sv)
 {
 	Clear_Data_DSLop();
 	int x = 5, y = 6;
@@ -372,11 +372,11 @@ void Show_DSMonHoc_Case1(DSMH dsmh, int start, int end, int pos, SV sv)
 	strcpy(trangthai,"CHUA THI");
 	for (int i = start; i < end; i++)
 	{
-		Show_1_MonHoc_Case1(dsmh.DSMH[i]->mon,trangthai, x, y + i - start);
+		Show_1_MonHoc_Case1(dsmh.dsmh[i],trangthai, x, y + i - start);
 	}
 	HighLight_Text();
 	for(NodeDiem *p=sv.DSDIEM.pHead; p!=NULL; p=p->pNext){
-		if(strcmp(dsmh.DSMH[start + pos]->mon.MAMH,p->diem.MAMH)==0){
+		if(strcmp(dsmh.dsmh[start + pos].MAMH,p->diem.MAMH)==0){
 			char c[50]; //size of the number
     		sprintf(c, "%g", p->diem.DIEMTHI);
 			strcpy(trangthai,"DA THI (");
@@ -384,14 +384,14 @@ void Show_DSMonHoc_Case1(DSMH dsmh, int start, int end, int pos, SV sv)
 			strcat(trangthai,c);
 		}
 	}
-	Show_1_MonHoc_Case1(dsmh.DSMH[start + pos]->mon,trangthai, x, y + pos);
+	Show_1_MonHoc_Case1(dsmh.dsmh[start + pos],trangthai, x, y + pos);
 }
 void DSMonHoc_Case1(SV sv){
-	NodeMH nodeMH = NULL;
-	DSMH dsmh;
+	DSMonHoc dsmh;
+	dsmh.Init();
 	Draw_Frame_DSMH();
 	Draw_Frame_DSMH_Input_Case1();
-	Read_DS_MH_File(nodeMH);
+	Read_DS_MH_File(dsmh);
 	dsmh.tong=0;
 	Insert_MH_toArray(nodeMH,dsmh);
 	char key;

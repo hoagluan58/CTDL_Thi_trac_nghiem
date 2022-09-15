@@ -6,9 +6,9 @@ using namespace std;
 int Convert_String_to_Int(string s)
 {
     int number = 0;
-    for (auto ch : s)
+    for (int i=0; i<s.length();i++)
     {
-        number = (number * 10) + (ch - '0');
+        number = (number * 10) + (s[i] - '0');
     }
     return number;
 }
@@ -115,31 +115,26 @@ void Read_DS_Lop_File(DSLop &dsl)
 }
 
 //ghi danh sach mon hoc vao file
-void Write_Tree_File(NodeMH & p, fstream & write) {
-    if (p != NULL) {
-        write << p->mon.MAMH<< "," << p->mon.TENMH<< "," << p->mon.dsch.tong<< endl;
-        for(int i=0; i<p->mon.dsch.tong;i++){
-        	write << p->mon.dsch.dsch[i].NOIDUNG << "," << p->mon.dsch.dsch[i].A << "," << p->mon.dsch.dsch[i].B << "," << p->mon.dsch.dsch[i].C << "," << p->mon.dsch.dsch[i].D << "," << p->mon.dsch.dsch[i].DA << endl;    
-		}
-        Write_Tree_File(p -> pLeft, write);
-        Write_Tree_File(p -> pRight, write);
-    }
+void Write_Tree_File(NodeCH & p, fstream & write) {
+//    if (p != NULL) {
+//        write << p->mon.MAMH<< "," << p->mon.TENMH<< "," << p->mon.dsch.tong<< endl;
+//        for(int i=0; i<p->mon.dsch.tong;i++){
+//        	write << p->mon.dsch.dsch[i].NOIDUNG << "," << p->mon.dsch.dsch[i].A << "," << p->mon.dsch.dsch[i].B << "," << p->mon.dsch.dsch[i].C << "," << p->mon.dsch.dsch[i].D << "," << p->mon.dsch.dsch[i].DA << endl;    
+//		}
+//        Write_Tree_File(p -> pLeft, write);
+//        Write_Tree_File(p -> pRight, write);
+//    }
 }
-void Save_Tree_File(NodeMH & p) {
-    fstream write;
-    write.open("DSMonHoc.txt", ios::out | ios::trunc);
-    Write_Tree_File(p, write);
-    write.close();
+void Save_Tree_File(NodeCH & p) {
+//    fstream write;
+//    write.open("DSMonHoc.txt", ios::out | ios::trunc);
+//    Write_Tree_File(p, write);
+//    write.close();
 }
-void Read_DS_MH_File(NodeMH &nodeMH)
+void Read_DS_MH_File(DSMonHoc &dsmh)
 {
     fstream readFile;
     readFile.open("DSMonHoc.txt", ios::in);
-    
-    if(nodeMH!=NULL){
-    	DeleteAllMonHoc(nodeMH);
-	}
-	nodeMH=NULL;
     string data = "";
     while (!readFile.eof())
     {
@@ -152,6 +147,8 @@ void Read_DS_MH_File(NodeMH &nodeMH)
         int tong = Convert_String_to_Int(data);
         for(int i=0;i<tong ;i++){
         	CauHoi ch;
+        	getline(readFile, data, ',');
+        	strcpy(ch.Id, data.c_str());
         	getline(readFile, data, ',');
         	strcpy(ch.NOIDUNG, data.c_str());
         	getline(readFile, data, ',');
@@ -168,7 +165,6 @@ void Read_DS_MH_File(NodeMH &nodeMH)
 		}
         if (strcmp(mh.MAMH, "") != 0)
         Insert_MH(nodeMH,mh);
-        // do no se doc dong cuoi cung, ma dong cuoi cung khong co gia tri no cung doc, nen khac null moi duoc them vao
     }
 }
 
