@@ -134,6 +134,10 @@ typedef struct
 	}
 } DSMonHoc;
 
+void Insert_MH(DSMonHoc &dsmh, MonHoc mh){
+		
+}
+
 //----------DANH SACH CAU HOI DA THUC HIEN------------
 typedef struct ChiTietCauHoi
 {

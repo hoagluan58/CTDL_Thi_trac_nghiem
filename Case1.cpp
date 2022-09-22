@@ -393,7 +393,7 @@ void DSMonHoc_Case1(SV sv){
 	Draw_Frame_DSMH_Input_Case1();
 	Read_DS_MH_File(dsmh);
 	dsmh.tong=0;
-	Insert_MH_toArray(nodeMH,dsmh);
+//	Insert_MH_toArray(nodeMH,dsmh);
 	char key;
 	int pos = 0;
 	int start = 0, end = 0;

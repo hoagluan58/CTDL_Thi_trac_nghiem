@@ -1,6 +1,6 @@
 //========================CASE 2===================
 
-DSMH dsmh;
+DSMonHoc dsmh;
 
 
 void Show_1_MonHoc(MonHoc mh, int x, int y)
@@ -28,26 +28,26 @@ void Clear_Data_DSMonHoc()
 	}
 }
 
-void Show_DSMonHoc(DSMH dsmh, int start, int end, int pos)
+void Show_DSMonHoc(DSMonHoc dsmh, int start, int end, int pos)
 {
 	Clear_Data_DSLop();
 	int x = 5, y = 6;
 	Normal_Text();
 	for (int i = start; i < end; i++)
 	{
-		Show_1_MonHoc(dsmh.DSMH[i]->mon, x, y + i - start);
+		Show_1_MonHoc(dsmh.dsmh[i], x, y + i - start);
 	}
 	HighLight_Text();
-	Show_1_MonHoc(dsmh.DSMH[start + pos]->mon, x, y + pos);
+	Show_1_MonHoc(dsmh.dsmh[start + pos], x, y + pos);
 }
 
-void Add_MonHoc(NodeMH &nodeMH)
+void Add_MonHoc(MonHoc &nodeMH)
 {
 	Normal_Text();
 	Draw_Frame_DSMH_Input();
 	int chon = 0;
 	MonHoc mh;
-	mh.dsch.Init();
+//	mh.dsch.Init();
 	strcpy(mh.MAMH,"");
 	strcpy(mh.TENMH,"");
 	do
@@ -99,12 +99,12 @@ void Add_MonHoc(NodeMH &nodeMH)
 		case CTRL_S:
 			bool check = true;
 			for(int i=0; i<dsmh.tong;i++){
-				if(dsmh.DSMH[i]->mon.MAMH==mh.MAMH){
+				if(dsmh.dsmh[i].MAMH==mh.MAMH){
 					check = false;
 				}
 			}
 			if(check==true){
-				Insert_MH(nodeMH,mh);
+				Insert_MH(dsmh,mh);
 				
 			} else {
 				Dialog_Notification("Ma mon hoc bi trung",2);
@@ -424,7 +424,7 @@ void Case2(NodeMH &nodeMH){
 				end = dsmh.tong;
 			break;
 		case DEL:
-			Remove_MH(nodeMH,dsmh.DSMH[start+pos]->mon.MAMH);
+			Remove_MH(nodeMH,dsmh.dsmh[start+pos].MAMH);
 			dsmh.tong=0;
 			Save_Tree_File(nodeMH);
 			Read_DS_MH_File(nodeMH);
@@ -439,7 +439,7 @@ void Case2(NodeMH &nodeMH){
 				end = dsmh.tong;
 			break;
 		case ENTER:
-			GiaoDien_QuanLiCauHoi(dsmh.DSMH[start+pos]->mon.dsch);
+			GiaoDien_QuanLiCauHoi(dsmh.dsmh[start+pos].dsch);
 			Save_Tree_File(nodeMH);
 			Draw_Frame_DSMH();
 			Draw_Frame_DSMH_Input();

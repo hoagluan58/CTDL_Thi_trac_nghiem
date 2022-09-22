@@ -161,10 +161,11 @@ void Read_DS_MH_File(DSMonHoc &dsmh)
         	strcpy(ch.D, data.c_str());
         	getline(readFile, data);
         	strcpy(ch.DA, data.c_str());
-        	mh.dsch.InsertCauHoi(ch);
+//        	mh.dsch.InsertCauHoi(ch);
+			Insert_CH(mh.pDSCH,ch);
 		}
-        if (strcmp(mh.MAMH, "") != 0)
-        Insert_MH(nodeMH,mh);
+//        if (strcmp(mh.MAMH, "") != 0)
+//        Insert_MH(nodeMH,mh);
     }
 }
 
